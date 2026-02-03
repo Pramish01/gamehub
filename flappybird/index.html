@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-wrapper">
+        <div id="game-container">
+
+            <div id="game-header">
+                <h1>🐦 FLAPPY BIRD</h1>
+                <p class="subtitle">How far can you fly?</p>
+            </div>
+
+            <div id="stats-bar">
+                <div class="stat-box">
+                    <div class="stat-label">Score</div>
+                    <div class="stat-value" id="ui-score">0</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-box">
+                    <div class="stat-label">Best</div>
+                    <div class="stat-value" id="ui-best">0</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-box">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value" id="ui-level">Easy</div>
+                </div>
+            </div>
+
+            <div id="canvas-wrap">
+                <canvas id="gameCanvas"></canvas>
+
+                <div id="screen-home" class="overlay active">
+                    <div class="overlay-inner">
+                        <div class="overlay-icon">🐦</div>
+                        <h2 class="overlay-title">FLAPPY BIRD</h2>
+                        <p class="overlay-sub">Tap or press <kbd>Space</kbd> to flap</p>
+
+                        <div class="difficulty-row">
+                            <button class="diff-btn active" data-diff="easy">Easy</button>
+                            <button class="diff-btn" data-diff="medium">Medium</button>
+                            <button class="diff-btn" data-diff="hard">Hard</button>
+                        </div>
+
+                        <button class="play-btn" id="start-btn">START</button>
+                    </div>
+                </div>
+
+                <div id="screen-over" class="overlay">
+                    <div class="overlay-inner">
+                        <h2 class="overlay-title over-title">GAME OVER</h2>
+                        <div class="result-card">
+                            <div class="result-row">
+                                <span class="result-label">Score</span>
+                                <span class="result-val" id="over-score">0</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Best</span>
+                                <span class="result-val" id="over-best">0</span>
+                            </div>
+                            <div class="result-row new-best-row" id="new-best-row">
+                                <span class="new-best-badge">🏆 NEW BEST!</span>
+                            </div>
+                        </div>
+                        <div class="over-btn-row">
+                            <button class="play-btn" id="home-btn">🏠 HOME</button>
+                            <button class="play-btn" id="restart-btn">↻ RESTART</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="controls-hint">
+                <span>🖱️ Click or <kbd>Space</kbd> to flap</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

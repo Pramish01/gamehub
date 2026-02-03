@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>2048</h1>
+        <div class="header">
+            <div class="score-container">
+                <div class="score-label">Score</div>
+                <div class="score" id="score">0</div>
+            </div>
+            <button class="new-game-btn" onclick="game.init()">
+                <span style="position: relative; z-index: 1;">New Game</span>
+            </button>
+            <div class="score-container">
+                <div class="score-label">Best</div>
+                <div class="score" id="best">0</div>
+            </div>
+        </div>
+        <div class="game-board" id="game-board">
+            <div class="grid-container">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="start-screen" id="start-screen">
+                <h2>Welcome to 2048!</h2>
+                <div class="instructions-content">
+                    <p><strong>How to play:</strong></p>
+                    <p>Use arrow keys to move tiles. When two tiles with the same number touch, they merge into one!</p>
+                    <p>Keep combining tiles to reach <strong>2048</strong> and win! 🎯</p>
+                </div>
+                <div class="controls-hint">
+                    <span class="key-icon">↑</span>
+                    <span class="key-icon">↓</span>
+                    <span class="key-icon">←</span>
+                    <span class="key-icon">→</span>
+                </div>
+                <button class="start-btn" onclick="game.startGame()">
+                    <span style="position: relative; z-index: 1;">Start Game</span>
+                </button>
+            </div>
+            <div class="game-message" id="game-message">
+                <h2 id="message-text">Game Over!</h2>
+                <button class="new-game-btn" onclick="game.init()">
+                    <span style="position: relative; z-index: 1;">Try Again</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

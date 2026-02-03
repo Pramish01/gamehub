@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-wrapper">
+        <div id="game-container">
+            <canvas id="game-canvas"></canvas>
+            
+            <div id="ui-overlay">
+                <div class="stat">
+                    <div class="stat-label">SCORE</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">LEVEL</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">LIVES</div>
+                    <div class="stat-value" id="lives">3</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">BEST</div>
+                    <div class="stat-value" id="best">0</div>
+                </div>
+            </div>
+
+            <div id="start-screen">
+                <h1>🚀 NEON DEFENSE</h1>
+                <div class="welcome-box">
+                    <h2>Welcome to Neon Defense!</h2>
+                    
+                    <div class="how-to-play">
+                        <h3>How to play:</h3>
+                        <p>Control your spaceship and destroy enemy invaders before they reach you!</p>
+                        <p>Each enemy destroyed earns you points. Golden power-ups give bonus points!</p>
+                        <p>Survive as long as you can and reach the highest level! 🎯</p>
+                    </div>
+                    
+                    <div class="controls-section">
+                        <div class="control-method">
+                            <h4>Desktop Controls:</h4>
+                            <div class="key-display">
+                                <span class="key">←</span>
+                                <span class="key">→</span>
+                                <span class="key-label">or</span>
+                                <span class="key">A</span>
+                                <span class="key">D</span>
+                            </div>
+                            <p>Move left and right</p>
+                            <div class="key-display">
+                                <span class="key space-key">SPACE</span>
+                            </div>
+                            <p>Shoot lasers</p>
+                        </div>
+                        
+                        <div class="control-method mobile-method">
+                            <h4>Mobile Controls:</h4>
+                            <p>Use on-screen buttons</p>
+                            <div class="mobile-icons">
+                                <span>← → 🔥</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="start-btn">Start Game</button>
+            </div>
+
+            <div id="game-message">
+                <h2>GAME OVER</h2>
+                <p id="final-score">Score: 0</p>
+                <p id="high-score-message"></p>
+                <button id="restart-btn">Play Again</button>
+            </div>
+
+            <div id="mobile-controls">
+                <div class="control-group">
+                    <div class="control-btn" id="btn-left">←</div>
+                    <div class="control-btn" id="btn-right">→</div>
+                </div>
+                <div class="control-group">
+                    <div class="control-btn" id="btn-shoot">🔥</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
