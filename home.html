@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Game Hub - Game Collection</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./home-style.css">
+</head>
+
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+
+        <header>
+            <h1 class="logo">GAME HUB</h1>
+            <div class="user-section">
+                <span class="welcome-text">Welcome, <span id="username">Player</span>!</span>
+                <button class="logout-btn" id="logout-btn">
+                    <span class="logout-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <section class="category arcade">
+            <div class="category-header">
+                <div class="category-icon">🧩</div>
+                <h2 class="category-title">Puzzle Games</h2>
+            </div>
+
+            <div class="game-grid">
+                <div class="game-card">
+                    <span class="game-icon">🪗</span>
+                    <h3 class="game-title">Tic Tac Toe</h3>
+                    <p class="game-description">Challenge your friend!</p>
+                    <a href="tictactoe/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">🔢</span>
+                    <h3 class="game-title">2048</h3>
+                    <p class="game-description">Reach the final tile.</p>
+                    <a href="2048/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="category action">
+            <div class="category-header">
+                <div class="category-icon">⚔️</div>
+                <h2 class="category-title">Action Games</h2>
+            </div>
+
+            <div class="game-grid">
+                <div class="game-card">
+                    <span class="game-icon">🐥</span>
+                    <h3 class="game-title">Flappy Bird</h3>
+                    <p class="game-description">Save Your Bird And Get Score</p>
+                    <a href="flappybird/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">👾</span>
+                    <h3 class="game-title">Space Shooter</h3>
+                    <p class="game-description">Be Safe An Get Score</p>
+                    <a href="spaceshooter/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="./home-script.js"></script>
+</body>
+
+</html>
