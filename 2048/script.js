@@ -4,7 +4,7 @@ const game = {
     best: localStorage.getItem('best2048') || 0,
     previousBoard: null,
     gameStarted: false,
-    
+
     startGame() {
         document.getElementById('start-screen').classList.add('hidden');
         this.gameStarted = true;
@@ -31,15 +31,15 @@ const game = {
         for (let r = 0; r < 4; r++) {
             for (let c = 0; c < 4; c++) {
                 if (this.board[r][c] === 0) {
-                    emptyCells.push({r, c});
+                    emptyCells.push({ r, c });
                 }
             }
         }
-        
+
         if (emptyCells.length > 0) {
-            const {r, c} = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            const { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
             this.board[r][c] = Math.random() < 0.9 ? 2 : 4;
-            return {r, c};
+            return { r, c };
         }
         return null;
     },
@@ -56,11 +56,11 @@ const game = {
                     const tile = document.createElement('div');
                     const tileClass = value > 2048 ? 'super' : value;
                     tile.className = `tile tile-${tileClass}`;
-                    
+
                     if (newTile && newTile.r === r && newTile.c === c) {
                         tile.classList.add('tile-new');
                     }
-                    
+
                     tile.textContent = value;
                     tile.style.left = `${20 + c * 133}px`;
                     tile.style.top = `${20 + r * 133}px`;
@@ -89,7 +89,7 @@ const game = {
             this.renderBoard(newTile);
             this.updateScore();
             this.animateScoreChange();
-            
+
             setTimeout(() => {
                 if (this.checkWin()) {
                     this.showMessage('You Win! 🎉');
@@ -105,7 +105,7 @@ const game = {
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
             const merged = [];
-            
+
             for (let i = 0; i < row.length; i++) {
                 if (i < row.length - 1 && row[i] === row[i + 1]) {
                     merged.push(row[i] * 2);
@@ -115,11 +115,11 @@ const game = {
                     merged.push(row[i]);
                 }
             }
-            
+
             while (merged.length < 4) {
                 merged.push(0);
             }
-            
+
             if (JSON.stringify(this.board[r]) !== JSON.stringify(merged)) {
                 moved = true;
             }
@@ -133,7 +133,7 @@ const game = {
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
             const merged = [];
-            
+
             for (let i = row.length - 1; i >= 0; i--) {
                 if (i > 0 && row[i] === row[i - 1]) {
                     merged.unshift(row[i] * 2);
@@ -143,11 +143,11 @@ const game = {
                     merged.unshift(row[i]);
                 }
             }
-            
+
             while (merged.length < 4) {
                 merged.unshift(0);
             }
-            
+
             if (JSON.stringify(this.board[r]) !== JSON.stringify(merged)) {
                 moved = true;
             }
@@ -165,7 +165,7 @@ const game = {
                     column.push(this.board[r][c]);
                 }
             }
-            
+
             const merged = [];
             for (let i = 0; i < column.length; i++) {
                 if (i < column.length - 1 && column[i] === column[i + 1]) {
@@ -176,11 +176,11 @@ const game = {
                     merged.push(column[i]);
                 }
             }
-            
+
             while (merged.length < 4) {
                 merged.push(0);
             }
-            
+
             for (let r = 0; r < 4; r++) {
                 if (this.board[r][c] !== merged[r]) {
                     moved = true;
@@ -200,7 +200,7 @@ const game = {
                     column.push(this.board[r][c]);
                 }
             }
-            
+
             const merged = [];
             for (let i = column.length - 1; i >= 0; i--) {
                 if (i > 0 && column[i] === column[i - 1]) {
@@ -211,11 +211,11 @@ const game = {
                     merged.unshift(column[i]);
                 }
             }
-            
+
             while (merged.length < 4) {
                 merged.unshift(0);
             }
-            
+
             for (let r = 0; r < 4; r++) {
                 if (this.board[r][c] !== merged[r]) {
                     moved = true;

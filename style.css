@@ -26,8 +26,8 @@ body {
     position: fixed;
     inset: 0;
     background:
-        linear-gradient(rgba(0,243,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,243,255,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
     background-size: 50px 50px;
     animation: gridMove 20s linear infinite;
     z-index: 0;
@@ -38,6 +38,7 @@ body {
     from {
         transform: perspective(500px) rotateX(60deg) translateY(0);
     }
+
     to {
         transform: perspective(500px) rotateX(60deg) translateY(50px);
     }
@@ -78,9 +79,19 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(40px, -40px); }
-    66% { transform: translate(-30px, 30px); }
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(40px, -40px);
+    }
+
+    66% {
+        transform: translate(-30px, 30px);
+    }
 }
 
 
@@ -124,7 +135,7 @@ body {
 
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); 
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
 }
 
@@ -161,35 +172,35 @@ body {
 }
 
 .play-btn {
-  margin-top: 1.2rem;
-  padding: 0.8rem 2.2rem;
+    margin-top: 1.2rem;
+    padding: 0.8rem 2.2rem;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-  border: none;
-  border-radius: 10px;
+    border: none;
+    border-radius: 10px;
 
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
-  color: #fff;
-  font-weight: bold;
-  font-family: inherit;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    color: #fff;
+    font-weight: bold;
+    font-family: inherit;
 
-  cursor: pointer;
-  transition: all 0.3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-  text-decoration: none; 
+    text-decoration: none;
 }
 
 .play-btn:link,
 .play-btn:visited {
-  color: #fff;
+    color: #fff;
 }
 
 .play-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
 }
 
 

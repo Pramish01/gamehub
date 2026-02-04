@@ -1,10 +1,10 @@
 const canvas = document.getElementById("gameCanvas");
-const ctx    = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 
-const WIDTH  = 1080;
+const WIDTH = 1080;
 const HEIGHT = 720;
 
-canvas.width  = WIDTH;
+canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
 
@@ -21,27 +21,27 @@ imageFiles.forEach(src => {
 });
 
 const DIFFICULTY = {
-    easy:   { gap: 200, speed: 2, gravity: 0.5, freq: 150 },
-    medium: { gap: 180, speed: 3, gravity: 0.3, freq: 90  },
-    hard:   { gap: 120, speed: 4, gravity: 1,   freq: 70  }
+    easy: { gap: 200, speed: 2, gravity: 0.5, freq: 150 },
+    medium: { gap: 180, speed: 3, gravity: 0.3, freq: 90 },
+    hard: { gap: 120, speed: 4, gravity: 1, freq: 70 }
 };
 
-let gameState   = "home";  
-let difficulty  = "easy";
+let gameState = "home";
+let difficulty = "easy";
 let bird, pipes, score, bestScore, frames, running;
 
-const screenHome    = document.getElementById("screen-home");
-const screenOver    = document.getElementById("screen-over");
-const startBtn      = document.getElementById("start-btn");
-const restartBtn    = document.getElementById("restart-btn");
-const uiScore       = document.getElementById("ui-score");
-const uiBest        = document.getElementById("ui-best");
-const uiLevel       = document.getElementById("ui-level");
-const overScore     = document.getElementById("over-score");
-const overBest      = document.getElementById("over-best");
-const newBestRow    = document.getElementById("new-best-row");
-const homeBtn        = document.getElementById("home-btn");
-const diffButtons    = document.querySelectorAll(".diff-btn");
+const screenHome = document.getElementById("screen-home");
+const screenOver = document.getElementById("screen-over");
+const startBtn = document.getElementById("start-btn");
+const restartBtn = document.getElementById("restart-btn");
+const uiScore = document.getElementById("ui-score");
+const uiBest = document.getElementById("ui-best");
+const uiLevel = document.getElementById("ui-level");
+const overScore = document.getElementById("over-score");
+const overBest = document.getElementById("over-best");
+const newBestRow = document.getElementById("new-best-row");
+const homeBtn = document.getElementById("home-btn");
+const diffButtons = document.querySelectorAll(".diff-btn");
 
 bestScore = 0;
 
@@ -59,11 +59,11 @@ class Bird {
 
     update(gravity) {
         this.vel += gravity;
-        this.y   += this.vel;
+        this.y += this.vel;
         if (this.y < 0) this.y = 0;
-        if (this.y + this.h > HEIGHT - 100) { 
+        if (this.y + this.h > HEIGHT - 100) {
             this.y = HEIGHT - 100 - this.h;
-            return true; 
+            return true;
         }
         return false;
     }
@@ -82,15 +82,15 @@ class Bird {
 
 class Pipe {
     constructor(x, gap) {
-        this.x  = x;
-        this.w  = 70;
+        this.x = x;
+        this.w = 70;
         this.gap = gap;
 
         const min = 80;
         const max = HEIGHT - gap - 200;
-        this.topH    = Math.random() * (max - min) + min;
+        this.topH = Math.random() * (max - min) + min;
         this.bottomY = this.topH + gap;
-        this.scored  = false;
+        this.scored = false;
     }
 
     update(speed) { this.x -= speed; }
@@ -110,7 +110,7 @@ class Pipe {
     hit(bird) {
         const r = bird.rect();
         return (
-            collide(r, { x: this.x, y: 0,            w: this.w, h: this.topH }) ||
+            collide(r, { x: this.x, y: 0, w: this.w, h: this.topH }) ||
             collide(r, { x: this.x, y: this.bottomY, w: this.w, h: HEIGHT - this.bottomY })
         );
     }
@@ -126,10 +126,10 @@ function collide(a, b) {
 }
 
 function resetGame() {
-    bird    = new Bird();
-    pipes   = [];
-    score   = 0;
-    frames  = 0;
+    bird = new Bird();
+    pipes = [];
+    score = 0;
+    frames = 0;
     running = false;
     updateUI();
 }
@@ -142,14 +142,14 @@ function startGame() {
 
 function gameOver() {
     gameState = "over";
-    running   = false;
+    running = false;
 
     const isNewBest = score > bestScore;
     if (isNewBest) bestScore = score;
     updateUI();
 
     overScore.textContent = score;
-    overBest.textContent  = bestScore;
+    overBest.textContent = bestScore;
     newBestRow.classList.toggle("show", isNewBest);
 
     screenOver.classList.add("active");
@@ -163,7 +163,7 @@ function goHome() {
 }
 function updateUI() {
     uiScore.textContent = score;
-    uiBest.textContent  = bestScore;
+    uiBest.textContent = bestScore;
     uiLevel.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
 }
 
@@ -177,9 +177,9 @@ function drawBackground() {
         ctx.drawImage(images["background.png"], 0, 0, WIDTH, HEIGHT);
     } else {
         const grad = ctx.createLinearGradient(0, 0, 0, HEIGHT);
-        grad.addColorStop(0,   "#87CEEB");
+        grad.addColorStop(0, "#87CEEB");
         grad.addColorStop(0.7, "#E0F0FF");
-        grad.addColorStop(1,   "#c8b896");
+        grad.addColorStop(1, "#c8b896");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
     }
@@ -245,7 +245,7 @@ function loop() {
 
         if (!running) {
             ctx.fillStyle = "rgba(255,255,255,0.85)";
-            ctx.font     = "bold 30px 'Nunito', sans-serif";
+            ctx.font = "bold 30px 'Nunito', sans-serif";
             ctx.textAlign = "center";
             ctx.fillText("TAP OR PRESS SPACE TO FLAP", WIDTH / 2, HEIGHT / 2);
         }

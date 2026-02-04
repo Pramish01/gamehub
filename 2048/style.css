@@ -20,7 +20,7 @@
 body {
     font-family: 'Outfit', sans-serif;
     background: var(--bg-primary);
-    background-image: 
+    background-image:
         radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
     display: flex;
@@ -39,21 +39,24 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        repeating-linear-gradient(
-            0deg,
+    background:
+        repeating-linear-gradient(0deg,
             rgba(0, 212, 255, 0.03) 0px,
             transparent 1px,
             transparent 2px,
-            rgba(0, 212, 255, 0.03) 3px
-        );
+            rgba(0, 212, 255, 0.03) 3px);
     pointer-events: none;
     animation: scanlines 8s linear infinite;
 }
 
 @keyframes scanlines {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(20px); }
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(20px);
+    }
 }
 
 .container {
@@ -73,6 +76,7 @@ body::before {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -96,8 +100,15 @@ h1 {
 }
 
 @keyframes glow {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.2); }
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.2);
+    }
 }
 
 .header {
@@ -243,68 +254,79 @@ h1 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.tile-2 { 
+.tile-2 {
     background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
     color: #a0aec0;
     border: 1px solid rgba(160, 174, 192, 0.2);
 }
-.tile-4 { 
+
+.tile-4 {
     background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
     color: #cbd5e0;
     border: 1px solid rgba(203, 213, 224, 0.2);
 }
-.tile-8 { 
+
+.tile-8 {
     background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
     color: #fff;
     box-shadow: 0 4px 20px rgba(246, 173, 85, 0.4);
 }
-.tile-16 { 
+
+.tile-16 {
     background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
     color: #fff;
     box-shadow: 0 4px 20px rgba(252, 129, 129, 0.4);
 }
-.tile-32 { 
+
+.tile-32 {
     background: linear-gradient(135deg, #f687b3 0%, #ed64a6 100%);
     color: #fff;
     box-shadow: 0 4px 20px rgba(246, 135, 179, 0.4);
 }
-.tile-64 { 
+
+.tile-64 {
     background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
     color: #fff;
     box-shadow: 0 4px 20px rgba(159, 122, 234, 0.4);
 }
-.tile-128 { 
+
+.tile-128 {
     background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
     color: #fff;
     font-size: 1.9em;
     box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5);
 }
-.tile-256 { 
+
+.tile-256 {
     background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
     color: #fff;
     font-size: 1.9em;
     box-shadow: 0 4px 20px rgba(56, 178, 172, 0.5);
 }
-.tile-512 { 
+
+.tile-512 {
     background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: #fff;
     font-size: 1.9em;
     box-shadow: 0 4px 20px rgba(72, 187, 120, 0.5);
 }
-.tile-1024 { 
+
+.tile-1024 {
     background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%);
     color: #fff;
     font-size: 1.6em;
     box-shadow: 0 4px 20px rgba(236, 201, 75, 0.5);
 }
-.tile-2048 { 
+
+.tile-2048 {
     background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
     color: #fff;
     font-size: 1.6em;
     box-shadow: 0 6px 30px rgba(255, 215, 0, 0.7);
     animation: pulse 1.5s ease-in-out infinite;
 }
-.tile-super { 
+
+.tile-super {
     background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
     color: #fff;
     font-size: 1.4em;
@@ -313,8 +335,15 @@ h1 {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .tile-new {
@@ -326,6 +355,7 @@ h1 {
         transform: scale(0) rotate(180deg);
         opacity: 0;
     }
+
     100% {
         transform: scale(1) rotate(0deg);
         opacity: 1;
@@ -337,9 +367,17 @@ h1 {
 }
 
 @keyframes merge {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .game-message {
@@ -360,8 +398,13 @@ h1 {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .game-message.show {
@@ -384,6 +427,7 @@ h1 {
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
