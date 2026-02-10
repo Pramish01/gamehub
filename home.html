@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Game Hub - Game Collection</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <title>Game Hub - Choose Your Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./home-style.css">
 </head>
 
@@ -24,62 +23,94 @@
         <header>
             <h1 class="logo">GAME HUB</h1>
             <div class="user-section">
-                <span class="welcome-text">Welcome, <span id="username">Player</span>!</span>
+                <span class="welcome-text">Player_<span id="username">One</span></span>
                 <button class="logout-btn" id="logout-btn">
+                    <span>Logout</span>
                     <span class="logout-icon">🚪</span>
-                    Logout
                 </button>
             </div>
         </header>
 
+        <section class="hero-section">
+            <h2 class="hero-title">CHOOSE YOUR GAME</h2>
+            <p class="hero-subtitle">Select a game and start playing!</p>
+        </section>
+
         <section class="category arcade">
             <div class="category-header">
-                <div class="category-icon">🧩</div>
-                <h2 class="category-title">Puzzle Games</h2>
+                <div class="category-icon">🎮</div>
+                <h2 class="category-title">AVAILABLE GAMES</h2>
             </div>
 
             <div class="game-grid">
                 <div class="game-card">
-                    <span class="game-icon">🪗</span>
-                    <h3 class="game-title">Tic Tac Toe</h3>
-                    <p class="game-description">Challenge your friend!</p>
-                    <a href="tictactoe/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
-                        Play Now
-                    </a>
-                </div>
-
-                <div class="game-card">
                     <span class="game-icon">🔢</span>
                     <h3 class="game-title">2048</h3>
-                    <p class="game-description">Reach the final tile.</p>
+                    <p class="game-description">Slide tiles to combine numbers and reach 2048!</p>
                     <a href="2048/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
                         Play Now
                     </a>
                 </div>
-            </div>
-        </section>
 
-        <section class="category action">
-            <div class="category-header">
-                <div class="category-icon">⚔️</div>
-                <h2 class="category-title">Action Games</h2>
-            </div>
+                <div class="game-card">
+                    <span class="game-icon">🎯</span>
+                    <h3 class="game-title">BAGHCHAL</h3>
+                    <p class="game-description">Traditional Nepali strategy board game.</p>
+                    <a href="baghchal/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
 
-            <div class="game-grid">
                 <div class="game-card">
                     <span class="game-icon">🐥</span>
-                    <h3 class="game-title">Flappy Bird</h3>
-                    <p class="game-description">Save Your Bird And Get Score</p>
+                    <h3 class="game-title">FLAPPY BIRD</h3>
+                    <p class="game-description">Tap to fly and avoid obstacles!</p>
                     <a href="flappybird/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
                         Play Now
                     </a>
                 </div>
 
                 <div class="game-card">
-                    <span class="game-icon">👾</span>
-                    <h3 class="game-title">Space Shooter</h3>
-                    <p class="game-description">Be Safe An Get Score</p>
+                    <span class="game-icon">🚀</span>
+                    <h3 class="game-title">SPACE SHOOTER</h3>
+                    <p class="game-description">Defend the galaxy from alien invaders!</p>
                     <a href="spaceshooter/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">🧩</span>
+                    <h3 class="game-title">MEMORY GAME</h3>
+                    <p class="game-description">Match pairs and test your memory!</p>
+                    <a href="memorygame/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">❓</span>
+                    <h3 class="game-title">QUIZ</h3>
+                    <p class="game-description">Challenge yourself with trivia questions!</p>
+                    <a href="quiz/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">🌀</span>
+                    <h3 class="game-title">MAZE</h3>
+                    <p class="game-description">Navigate through challenging mazes!</p>
+                    <a href="maze/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
+                        Play Now
+                    </a>
+                </div>
+
+                <div class="game-card">
+                    <span class="game-icon">⭕</span>
+                    <h3 class="game-title">TIC TAC TOE</h3>
+                    <p class="game-description">Classic game for two players!</p>
+                    <a href="tictactoe/index.html" class="play-btn" target="_blank" rel="noopener noreferrer">
                         Play Now
                     </a>
                 </div>

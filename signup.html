@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Hub - Sign Up</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <title>Game Hub - Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./login-style.css">
 </head>
 
@@ -29,24 +30,46 @@
                 <h2 class="login-title">Create Account</h2>
 
                 <form id="signup-form">
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                    <div class="name-row">
+                        <div class="input-group">
+                            <label for="firstname">FIRST NAME</label>
+                            <input type="text" id="firstname" placeholder="John" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="lastname">LAST NAME</label>
+                            <input type="text" id="lastname" placeholder="Doe" required>
+                        </div>
                     </div>
 
                     <div class="input-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Choose a username" required>
+                        <label for="email">EMAIL</label>
+                        <input type="email" id="email" placeholder="gamer@example.com" required>
                     </div>
 
                     <div class="input-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Min. 6 characters" required>
+                        <label for="username">USERNAME</label>
+                        <input type="text" id="username" placeholder="Choose your gaming tag" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" id="password" placeholder="Create a strong password" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="confirm-password">CONFIRM PASSWORD</label>
+                        <input type="password" id="confirm-password" placeholder="Re-enter your password" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
                     </div>
 
                     <button type="submit" class="login-btn">
                         <span class="btn-text">Create Account</span>
-                        <span class="btn-icon">✨</span>
+                        <span class="btn-icon">🎮</span>
                     </button>
                 </form>
 
@@ -63,12 +86,27 @@
         document.getElementById('signup-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            const firstname = document.getElementById('firstname').value;
+            const lastname = document.getElementById('lastname').value;
             const email = document.getElementById('email').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validation
+            if (!terms) {
+                alert('Please accept the Terms & Conditions');
+                return;
+            }
             
             if (password.length < 6) {
                 alert('Password must be at least 6 characters long');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
                 return;
             }
             
@@ -81,8 +119,10 @@
         // Orb animation on mouse move
         document.addEventListener('mousemove', e => {
             document.querySelectorAll('.orb').forEach((orb, i) => {
-                const speed = (i + 1) * 20;
-                orb.style.transform = `translate(${e.clientX / speed}px, ${e.clientY / speed}px)`;
+                const speed = (i + 1) * 30;
+                const x = (e.clientX / speed);
+                const y = (e.clientY / speed);
+                orb.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
     </script>

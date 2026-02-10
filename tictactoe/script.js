@@ -2,19 +2,19 @@
     let board = Array(9).fill(null);
     let currentPlayer = 'X';
     let gameActive = true;
-    let scores = { X: 0, O: 0, draw: 0 };
+    let scores = { X: 0, O: 0 };
+    let moveHistory = []; // Track moves in order [{ player, index }]
 
     const WIN_COMBOS = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8],
-        [0, 3, 6], [1, 4, 7], [2, 5, 8],
-        [0, 4, 8], [2, 4, 6]
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6]              // diagonals
     ];
 
     const cells = document.querySelectorAll('.cell');
     const currentTurnEl = document.getElementById('current-turn');
     const scoreX = document.getElementById('score-x');
     const scoreO = document.getElementById('score-o');
-    const scoreDraw = document.getElementById('score-draw');
     const winnerMessage = document.getElementById('winner-message');
     const winnerText = document.getElementById('winner-text');
     const winnerCombo = document.getElementById('winner-combo');
@@ -64,32 +64,42 @@
         setTimeout(() => { winnerMessage.classList.add('show'); }, 420);
     }
 
-    function showDraw() {
-        gameActive = false;
-        scores.draw++;
-        scoreDraw.textContent = scores.draw;
+    function removeOldestMove() {
+        if (moveHistory.length === 0) return;
 
-        winnerText.textContent = "It's a Draw!";
-        winnerText.className = 'draw';
-        winnerCombo.textContent = 'Better luck next time!';
+        // Find the oldest move for the current player
+        const oldestMoveIndex = moveHistory.findIndex(move => move.player === currentPlayer);
+        
+        if (oldestMoveIndex !== -1) {
+            const oldMove = moveHistory[oldestMoveIndex];
+            const cellIndex = oldMove.index;
 
-        setTimeout(() => { winnerMessage.classList.add('show'); }, 350);
+            // Add fading animation
+            cells[cellIndex].classList.add('fading');
+            
+            // Remove from board and history after animation
+            setTimeout(() => {
+                board[cellIndex] = null;
+                moveHistory.splice(oldestMoveIndex, 1);
+                renderBoard();
+            }, 300);
+        }
     }
 
     function resetGame() {
         board = Array(9).fill(null);
         currentPlayer = 'X';
         gameActive = true;
+        moveHistory = [];
         winnerMessage.classList.remove('show');
         setTurnUI('X');
         renderBoard();
     }
 
     function resetScores() {
-        scores = { X: 0, O: 0, draw: 0 };
+        scores = { X: 0, O: 0 };
         scoreX.textContent = 0;
         scoreO.textContent = 0;
-        scoreDraw.textContent = 0;
         resetGame();
     }
 
@@ -98,24 +108,35 @@
             const idx = parseInt(cell.dataset.index);
             if (!gameActive || board[idx]) return;
 
-            board[idx] = currentPlayer;
-            renderBoard();
-
-            const result = checkWin();
-            if (result) {
-                showWinner(result.winner, result.combo);
-                return;
+            // Check if player has 3 moves already
+            const playerMoves = moveHistory.filter(move => move.player === currentPlayer);
+            if (playerMoves.length >= 3) {
+                removeOldestMove();
+                
+                // Wait for fade animation before placing new move
+                setTimeout(() => {
+                    placeMove(idx);
+                }, 350);
+            } else {
+                placeMove(idx);
             }
-
-            if (board.every(Boolean)) {
-                showDraw();
-                return;
-            }
-
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            setTurnUI(currentPlayer);
         });
     });
+
+    function placeMove(idx) {
+        board[idx] = currentPlayer;
+        moveHistory.push({ player: currentPlayer, index: idx });
+        renderBoard();
+
+        const result = checkWin();
+        if (result) {
+            showWinner(result.winner, result.combo);
+            return;
+        }
+
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        setTurnUI(currentPlayer);
+    }
 
     resetBtn.addEventListener('click', resetGame);
     resetScoresBtn.addEventListener('click', resetScores);

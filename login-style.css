@@ -1,11 +1,12 @@
 :root {
-    --neon-blue: #00f3ff;
+    --neon-cyan: #00f3ff;
     --neon-pink: #ff006e;
-    --neon-yellow: #ffbe0b;
+    --neon-purple: #b026ff;
     --neon-green: #00ff87;
     --dark-bg: #0a0e27;
     --darker-bg: #050814;
-    --card-bg: rgba(15, 23, 42, 0.85);
+    --card-bg: rgba(20, 25, 45, 0.9);
+    --input-bg: rgba(15, 20, 40, 0.6);
 }
 
 * {
@@ -15,11 +16,12 @@
 }
 
 body {
-    font-family: 'Orbitron', sans-serif;
-    background: var(--darker-bg);
+    font-family: 'Poppins', 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1e3f 100%);
     color: #fff;
     min-height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 /* Background Grid Animation */
@@ -27,8 +29,8 @@ body {
     position: fixed;
     inset: 0;
     background:
-        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
     background-size: 50px 50px;
     animation: gridMove 20s linear infinite;
     z-index: 0;
@@ -48,46 +50,49 @@ body {
 .orb {
     position: fixed;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.3;
+    filter: blur(100px);
+    opacity: 0.25;
     z-index: 0;
     animation: float 15s ease-in-out infinite;
     pointer-events: none;
 }
 
 .orb-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--neon-pink);
-    top: -100px;
-    left: -100px;
+    width: 450px;
+    height: 450px;
+    background: linear-gradient(135deg, #b026ff, #ff006e);
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
 }
 
 .orb-2 {
-    width: 300px;
-    height: 300px;
-    background: var(--neon-blue);
-    bottom: -50px;
-    right: -50px;
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, #00f3ff, #0088ff);
+    bottom: -100px;
+    right: -100px;
+    animation-delay: 5s;
 }
 
 .orb-3 {
-    width: 350px;
-    height: 350px;
-    background: var(--neon-yellow);
-    top: 50%;
-    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #00ff87, #00f3ff);
+    top: 40%;
+    right: 10%;
+    animation-delay: 10s;
 }
 
 @keyframes float {
     0%, 100% {
-        transform: translate(0, 0);
+        transform: translate(0, 0) scale(1);
     }
     33% {
-        transform: translate(40px, -40px);
+        transform: translate(50px, -50px) scale(1.1);
     }
     66% {
-        transform: translate(-30px, 30px);
+        transform: translate(-40px, 40px) scale(0.9);
     }
 }
 
@@ -105,59 +110,90 @@ body {
 /* Login Wrapper */
 .login-wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 540px;
 }
 
 /* Logo Section */
 .logo-section {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .logo {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #ff006e 0%, #b026ff 50%, #00f3ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+    text-shadow: 0 0 40px rgba(255, 0, 110, 0.4);
+    letter-spacing: 4px;
 }
 
 .tagline {
-    font-size: 1.1rem;
-    color: var(--neon-blue);
-    opacity: 0.8;
+    font-size: 1.15rem;
+    color: var(--neon-cyan);
+    opacity: 0.9;
     letter-spacing: 2px;
+    font-weight: 400;
 }
 
 /* Login Box */
 .login-box {
     background: var(--card-bg);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    border: 1px solid rgba(0, 243, 255, 0.2);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    border-radius: 24px;
+    padding: 3rem 2.8rem;
+    border: 2px solid rgba(176, 38, 255, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 80px rgba(176, 38, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(255, 0, 110, 0.4), rgba(176, 38, 255, 0.4), rgba(0, 243, 255, 0.4));
+    border-radius: 24px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.login-box:hover::before {
+    opacity: 1;
 }
 
 .login-box:hover {
-    border-color: rgba(0, 243, 255, 0.4);
-    box-shadow: 0 30px 60px rgba(0, 243, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 35px 70px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(176, 38, 255, 0.3);
 }
 
 .login-title {
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     color: #fff;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 /* Form Styles */
-#login-form {
+#login-form,
+#signup-form,
+#forgot-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -166,65 +202,124 @@ body {
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .input-group label {
-    font-size: 0.95rem;
-    color: var(--neon-blue);
+    font-size: 0.9rem;
+    color: var(--neon-green);
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .input-group input {
     width: 100%;
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.4rem;
     font-size: 1rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #fff;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(0, 243, 255, 0.2);
-    border-radius: 10px;
+    background: var(--input-bg);
+    border: 2px solid rgba(176, 38, 255, 0.3);
+    border-radius: 12px;
     outline: none;
     transition: all 0.3s ease;
 }
 
 .input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .input-group input:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+    background: rgba(20, 25, 50, 0.8);
+    border-color: var(--neon-pink);
+    box-shadow: 
+        0 0 0 3px rgba(255, 0, 110, 0.1),
+        0 0 25px rgba(255, 0, 110, 0.2);
+    transform: translateY(-2px);
 }
 
-/* Login Button */
+/* Checkbox for Terms */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--neon-pink);
+}
+
+.checkbox-group label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+.checkbox-group a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.checkbox-group a:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* Login/Submit Button */
 .login-btn {
-    margin-top: 1rem;
-    padding: 1.2rem;
+    margin-top: 1.2rem;
+    padding: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ff006e 0%, #b026ff 100%);
     color: #fff;
-    font-weight: bold;
+    font-weight: 700;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     
     cursor: pointer;
     transition: all 0.3s ease;
     
-    box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+    box-shadow: 
+        0 8px 20px rgba(255, 0, 110, 0.4),
+        0 0 30px rgba(176, 38, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.login-btn:hover::before {
+    left: 100%;
 }
 
 .login-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 243, 255, 0.5);
+    box-shadow: 
+        0 12px 30px rgba(255, 0, 110, 0.5),
+        0 0 40px rgba(176, 38, 255, 0.5);
 }
 
 .login-btn:active {
@@ -232,7 +327,7 @@ body {
 }
 
 .btn-icon {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
 }
 
 /* Links Section */
@@ -243,13 +338,15 @@ body {
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .link {
-    color: var(--neon-blue);
+    color: var(--neon-cyan);
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .link:hover {
@@ -259,28 +356,90 @@ body {
 
 .signup-link {
     color: var(--neon-pink);
+    font-weight: 600;
 }
 
 .signup-link:hover {
-    color: var(--neon-yellow);
-    text-shadow: 0 0 10px var(--neon-yellow);
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
 }
 
 .separator {
     color: rgba(255, 255, 255, 0.3);
 }
 
+/* Forgot Password Specific Styles */
+.forgot-icon {
+    font-size: 5rem;
+    margin: 1.5rem 0;
+    display: block;
+    text-align: center;
+}
+
+.forgot-text {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.forgot-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.forgot-text .highlight {
+    color: var(--neon-cyan);
+    font-weight: 600;
+}
+
+/* Name Fields Row */
+.name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .logo {
+        font-size: 2.5rem;
+    }
+    
+    .login-box {
+        padding: 2.5rem 2rem;
+    }
+    
+    .login-title {
+        font-size: 1.6rem;
+    }
+    
+    .name-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
         font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .tagline {
+        font-size: 1rem;
     }
     
     .login-box {
         padding: 2rem 1.5rem;
     }
     
-    .login-title {
-        font-size: 1.5rem;
+    .links-section {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .separator {
+        display: none;
     }
 }
