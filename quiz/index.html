@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nepali Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Code Walk Quiz Arena</p>
+        <h1>नेपाली क्विज</h1>
+        <p class="level-badge" id="levelDisplay">Level 1</p>
+      </div>
+      <button class="ghost" id="openAdmin" type="button">Admin Panel</button>
+    </header>
+
+    <section class="card quiz" id="quizCard">
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="meta">
+        <span id="questionNumber">Question 1 of 50</span>
+        <span id="questionHint">Select one answer</span>
+      </div>
+      <h2 class="question" id="questionText">Loading question...</h2>
+      <div class="feedback" id="feedback"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="nav">
+        <button class="ghost" id="prevBtn" type="button">Previous</button>
+        <button class="solid" id="nextBtn" type="button">Next</button>
+      </div>
+    </section>
+
+    <section class="card results hidden" id="results">
+      <div class="badge">Quiz Completed</div>
+      <h2>Your Score</h2>
+      <div class="score" id="finalScore">0/50</div>
+      <p class="result-message" id="resultMessage"></p>
+      <button class="solid" id="retakeBtn" type="button">Retake Quiz</button>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="adminModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Admin Panel</h3>
+        <button class="ghost" id="closeAdmin" type="button">Close</button>
+      </div>
+      <p class="modal-note">Access code required:</p>
+      <div class="code-row">
+        <input type="password" id="adminCodeInput" placeholder="Admin code">
+        <button class="solid" id="unlockAdmin" type="button">Unlock</button>
+      </div>
+      <div class="admin-body hidden" id="adminBody">
+        <form id="adminForm">
+          <label>
+            Question
+            <textarea id="newQuestion" rows="3" placeholder="Type question in Nepali or English"></textarea>
+          </label>
+          <div class="grid">
+            <label>Option A<input id="optA" type="text" placeholder="Option A"></label>
+            <label>Option B<input id="optB" type="text" placeholder="Option B"></label>
+            <label>Option C<input id="optC" type="text" placeholder="Option C"></label>
+            <label>Option D<input id="optD" type="text" placeholder="Option D"></label>
+          </div>
+          <label>
+            Correct Answer
+            <select id="correctIndex">
+              <option value="0">Option A</option>
+              <option value="1">Option B</option>
+              <option value="2">Option C</option>
+              <option value="3">Option D</option>
+            </select>
+          </label>
+          <div class="admin-actions">
+            <button class="solid" type="submit">Add Question</button>
+            <button class="ghost" id="downloadQuestions" type="button">Download JSON</button>
+            <button class="ghost" id="resetQuestions" type="button">Reset to File Questions</button>
+          </div>
+          <p class="admin-status" id="adminStatus"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

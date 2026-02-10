@@ -9,14 +9,24 @@ const config = {
     lives: 3,
     level: 1,
     keys: {},
-    gameLoop: null
+    gameLoop: null,
+    imagesLoaded: false
+};
+
+// Image assets
+const images = {
+    player: new Image(),
+    rock1: new Image(),
+    rock2: new Image(),
+    rock3: new Image(),
+    rocks: []
 };
 
 const player = {
     x: 250,
     y: 720,
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     speed: 6,
     color: '#00d4ff'
 };
@@ -26,11 +36,46 @@ let enemies = [];
 let particles = [];
 let powerups = [];
 
-
 let lastEnemySpawn = 0;
 let enemySpawnRate = 1500;
 let lastShot = 0;
 let shootCooldown = 250;
+
+function loadImages() {
+    return new Promise((resolve) => {
+        let loadedCount = 0;
+        const totalImages = 4;
+
+        function imageLoaded() {
+            loadedCount++;
+            if (loadedCount === totalImages) {
+                images.rocks = [images.rock1, images.rock2, images.rock3];
+                config.imagesLoaded = true;
+                resolve();
+            }
+        }
+
+        images.player.onload = imageLoaded;
+        images.rock1.onload = imageLoaded;
+        images.rock2.onload = imageLoaded;
+        images.rock3.onload = imageLoaded;
+
+        // Set image sources
+        images.player.src = 'aircraft.png';
+        images.rock1.src = '1.png';
+        images.rock2.src = '2.png';
+        images.rock3.src = '3.png';
+
+        // Fallback in case images fail to load
+        setTimeout(() => {
+            if (!config.imagesLoaded) {
+                console.warn('Some images failed to load, using fallback graphics');
+                config.imagesLoaded = true;
+                resolve();
+            }
+        }, 5000);
+    });
+}
 
 function init() {
     config.canvas = document.getElementById('game-canvas');
@@ -52,9 +97,8 @@ function init() {
 
     document.addEventListener('keydown', (e) => {
         config.keys[e.key] = true;
-        if (e.key === ' ' && config.gameRunning) {
+        if (e.key === ' ') {
             e.preventDefault();
-            shoot();
         }
     });
 
@@ -67,12 +111,14 @@ function init() {
     if (window.innerWidth <= 768) {
         document.getElementById('mobile-controls').classList.add('show');
     }
+
+    // Load images
+    loadImages();
 }
 
 function setupMobileControls() {
     const btnLeft = document.getElementById('btn-left');
     const btnRight = document.getElementById('btn-right');
-    const btnShoot = document.getElementById('btn-shoot');
 
     btnLeft.addEventListener('touchstart', (e) => {
         e.preventDefault();
@@ -94,10 +140,7 @@ function setupMobileControls() {
         config.keys['ArrowRight'] = false;
     });
 
-    btnShoot.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        shoot();
-    });
+    // Shooting is now automatic, no need for shoot button handler
 }
 
 function startGame() {
@@ -145,6 +188,9 @@ function update() {
         player.x = Math.min(config.width - player.width, player.x + player.speed);
     }
 
+    // Automatic continuous shooting
+    shoot();
+
     const now = Date.now();
     if (now - lastEnemySpawn > enemySpawnRate) {
         spawnEnemy();
@@ -158,6 +204,9 @@ function update() {
 
     enemies = enemies.filter(enemy => {
         enemy.y += enemy.speed;
+        
+        // Rotate the rock
+        enemy.rotation += enemy.rotationSpeed;
 
         if (checkCollision(player, enemy)) {
             createExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, '#fc8181');
@@ -234,17 +283,31 @@ function draw() {
     });
 
     enemies.forEach(enemy => {
-        config.ctx.fillStyle = enemy.color;
-        config.ctx.shadowBlur = 15;
-        config.ctx.shadowColor = enemy.color;
-
-        config.ctx.beginPath();
-        config.ctx.moveTo(enemy.x + enemy.width / 2, enemy.y + enemy.height);
-        config.ctx.lineTo(enemy.x, enemy.y);
-        config.ctx.lineTo(enemy.x + enemy.width, enemy.y);
-        config.ctx.closePath();
-        config.ctx.fill();
-        config.ctx.shadowBlur = 0;
+        config.ctx.save();
+        config.ctx.translate(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2);
+        config.ctx.rotate(enemy.rotation);
+        
+        if (enemy.image && enemy.image.complete && enemy.image.naturalWidth > 0) {
+            // Draw the rock image
+            config.ctx.shadowBlur = 15;
+            config.ctx.shadowColor = enemy.color;
+            config.ctx.drawImage(enemy.image, -enemy.width / 2, -enemy.height / 2, enemy.width, enemy.height);
+            config.ctx.shadowBlur = 0;
+        } else {
+            // Fallback: draw triangle shape
+            config.ctx.fillStyle = enemy.color;
+            config.ctx.shadowBlur = 15;
+            config.ctx.shadowColor = enemy.color;
+            config.ctx.beginPath();
+            config.ctx.moveTo(0, -enemy.height / 2);
+            config.ctx.lineTo(-enemy.width / 2, enemy.height / 2);
+            config.ctx.lineTo(enemy.width / 2, enemy.height / 2);
+            config.ctx.closePath();
+            config.ctx.fill();
+            config.ctx.shadowBlur = 0;
+        }
+        
+        config.ctx.restore();
     });
 
     powerups.forEach(powerup => {
@@ -268,19 +331,30 @@ function draw() {
 }
 
 function drawPlayer() {
-    config.ctx.fillStyle = player.color;
-    config.ctx.shadowBlur = 20;
-    config.ctx.shadowColor = player.color;
+    if (images.player.complete && images.player.naturalWidth > 0) {
+        // Draw the aircraft image
+        config.ctx.save();
+        config.ctx.shadowBlur = 20;
+        config.ctx.shadowColor = player.color;
+        config.ctx.drawImage(images.player, player.x, player.y, player.width, player.height);
+        config.ctx.shadowBlur = 0;
+        config.ctx.restore();
+    } else {
+        // Fallback: draw triangle shape
+        config.ctx.fillStyle = player.color;
+        config.ctx.shadowBlur = 20;
+        config.ctx.shadowColor = player.color;
 
-    config.ctx.beginPath();
-    config.ctx.moveTo(player.x + player.width / 2, player.y);
-    config.ctx.lineTo(player.x, player.y + player.height);
-    config.ctx.lineTo(player.x + player.width / 2, player.y + player.height - 10);
-    config.ctx.lineTo(player.x + player.width, player.y + player.height);
-    config.ctx.closePath();
-    config.ctx.fill();
+        config.ctx.beginPath();
+        config.ctx.moveTo(player.x + player.width / 2, player.y);
+        config.ctx.lineTo(player.x, player.y + player.height);
+        config.ctx.lineTo(player.x + player.width / 2, player.y + player.height - 10);
+        config.ctx.lineTo(player.x + player.width, player.y + player.height);
+        config.ctx.closePath();
+        config.ctx.fill();
 
-    config.ctx.shadowBlur = 0;
+        config.ctx.shadowBlur = 0;
+    }
 }
 
 function drawStars() {
@@ -310,12 +384,13 @@ function shoot() {
 
 function spawnEnemy() {
     const types = [
-        { color: '#fc8181', speed: 2, points: 10, size: 30 },
-        { color: '#f687b3', speed: 2.5, points: 15, size: 25 },
-        { color: '#9f7aea', speed: 3, points: 20, size: 25 },
+        { color: '#fc8181', speed: 2, points: 10, size: 40, imageIndex: 0 },
+        { color: '#f687b3', speed: 2.5, points: 15, size: 35, imageIndex: 1 },
+        { color: '#9f7aea', speed: 3, points: 20, size: 35, imageIndex: 2 },
     ];
 
     const type = types[Math.floor(Math.random() * types.length)];
+    const rockImage = images.rocks[type.imageIndex];
 
     enemies.push({
         x: Math.random() * (config.width - type.size),
@@ -324,7 +399,10 @@ function spawnEnemy() {
         height: type.size,
         speed: type.speed + (config.level * 0.2),
         color: type.color,
-        points: type.points
+        points: type.points,
+        image: rockImage,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.1
     });
 }
 
