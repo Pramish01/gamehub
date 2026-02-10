@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Runner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Maze Runner</h1>
+            <div class="stats">
+                <p>Time Left: <span id="timer">1:00</span></p>
+                <p>Best: <span id="best">--</span>s</p>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas"></canvas>
+        
+        <div class="controls">
+            <p>Reach the gold exit. Good Luck!!!</p>
+            <div class="options">
+                <label>
+                    Difficulty
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="hard">Hard</option>
+                        <option value="expert">Expert</option>
+                        <option value="impossible">Impossible</option>
+                    </select>
+                </label>
+                <label>
+                    Shape
+                    <select id="shape">
+                        <option value="square" selected>Square</option>
+                        <option value="wide">Wide</option>
+                        <option value="tall">Tall</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                </label>
+                <label>
+                    Volume
+                    <input id="volume" type="range" min="0" max="1" step="0.05" value="1">
+                </label>
+            </div>
+            <button id="restartBtn">New Maze</button>
+        </div>
+    </div>
+
+    <div id="jumpscareOverlay" class="jumpscare" aria-hidden="true">
+        <img id="jumpscareImg" src="images/jumpscare1.png" alt="">
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
