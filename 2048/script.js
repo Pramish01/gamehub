@@ -1,3 +1,24 @@
+// Sound objects
+const sounds = {
+    win: new Audio('win.mp3'),
+    lose: new Audio('lose.mp3'),
+    add: new Audio('add.mp3')  // Sound for merging tiles
+};
+
+// Set volume levels
+sounds.win.volume = 0.6;
+sounds.lose.volume = 0.5;
+sounds.add.volume = 0.4;
+
+// Helper function to play sounds
+function playSound(soundName) {
+    const sound = sounds[soundName];
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log('Sound play failed:', e));
+    }
+}
+
 const game = {
     board: [],
     score: 0,
@@ -73,18 +94,31 @@ const game = {
     move(direction) {
         this.previousBoard = JSON.parse(JSON.stringify(this.board));
         let moved = false;
+        let merged = false;
 
         if (direction === 'left') {
-            moved = this.moveLeft();
+            const result = this.moveLeft();
+            moved = result.moved;
+            merged = result.merged;
         } else if (direction === 'right') {
-            moved = this.moveRight();
+            const result = this.moveRight();
+            moved = result.moved;
+            merged = result.merged;
         } else if (direction === 'up') {
-            moved = this.moveUp();
+            const result = this.moveUp();
+            moved = result.moved;
+            merged = result.merged;
         } else if (direction === 'down') {
-            moved = this.moveDown();
+            const result = this.moveDown();
+            moved = result.moved;
+            merged = result.merged;
         }
 
         if (moved) {
+            if (merged) {
+                playSound('add'); // Play merge sound when tiles combine
+            }
+            
             const newTile = this.addRandomTile();
             this.renderBoard(newTile);
             this.updateScore();
@@ -92,8 +126,10 @@ const game = {
 
             setTimeout(() => {
                 if (this.checkWin()) {
+                    playSound('win'); // Play win sound
                     this.showMessage('You Win! 🎉');
                 } else if (this.isGameOver()) {
+                    playSound('lose'); // Play lose sound
                     this.showMessage('Game Over!');
                 }
             }, 200);
@@ -102,62 +138,70 @@ const game = {
 
     moveLeft() {
         let moved = false;
+        let merged = false;
+        
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
-            const merged = [];
+            const mergedRow = [];
 
             for (let i = 0; i < row.length; i++) {
                 if (i < row.length - 1 && row[i] === row[i + 1]) {
-                    merged.push(row[i] * 2);
+                    mergedRow.push(row[i] * 2);
                     this.score += row[i] * 2;
+                    merged = true;
                     i++;
                 } else {
-                    merged.push(row[i]);
+                    mergedRow.push(row[i]);
                 }
             }
 
-            while (merged.length < 4) {
-                merged.push(0);
+            while (mergedRow.length < 4) {
+                mergedRow.push(0);
             }
 
-            if (JSON.stringify(this.board[r]) !== JSON.stringify(merged)) {
+            if (JSON.stringify(this.board[r]) !== JSON.stringify(mergedRow)) {
                 moved = true;
             }
-            this.board[r] = merged;
+            this.board[r] = mergedRow;
         }
-        return moved;
+        return { moved, merged };
     },
 
     moveRight() {
         let moved = false;
+        let merged = false;
+        
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
-            const merged = [];
+            const mergedRow = [];
 
             for (let i = row.length - 1; i >= 0; i--) {
                 if (i > 0 && row[i] === row[i - 1]) {
-                    merged.unshift(row[i] * 2);
+                    mergedRow.unshift(row[i] * 2);
                     this.score += row[i] * 2;
+                    merged = true;
                     i--;
                 } else {
-                    merged.unshift(row[i]);
+                    mergedRow.unshift(row[i]);
                 }
             }
 
-            while (merged.length < 4) {
-                merged.unshift(0);
+            while (mergedRow.length < 4) {
+                mergedRow.unshift(0);
             }
 
-            if (JSON.stringify(this.board[r]) !== JSON.stringify(merged)) {
+            if (JSON.stringify(this.board[r]) !== JSON.stringify(mergedRow)) {
                 moved = true;
             }
-            this.board[r] = merged;
+            this.board[r] = mergedRow;
         }
-        return moved;
+        return { moved, merged };
     },
 
     moveUp() {
         let moved = false;
+        let merged = false;
+        
         for (let c = 0; c < 4; c++) {
             const column = [];
             for (let r = 0; r < 4; r++) {
@@ -166,33 +210,36 @@ const game = {
                 }
             }
 
-            const merged = [];
+            const mergedColumn = [];
             for (let i = 0; i < column.length; i++) {
                 if (i < column.length - 1 && column[i] === column[i + 1]) {
-                    merged.push(column[i] * 2);
+                    mergedColumn.push(column[i] * 2);
                     this.score += column[i] * 2;
+                    merged = true;
                     i++;
                 } else {
-                    merged.push(column[i]);
+                    mergedColumn.push(column[i]);
                 }
             }
 
-            while (merged.length < 4) {
-                merged.push(0);
+            while (mergedColumn.length < 4) {
+                mergedColumn.push(0);
             }
 
             for (let r = 0; r < 4; r++) {
-                if (this.board[r][c] !== merged[r]) {
+                if (this.board[r][c] !== mergedColumn[r]) {
                     moved = true;
                 }
-                this.board[r][c] = merged[r];
+                this.board[r][c] = mergedColumn[r];
             }
         }
-        return moved;
+        return { moved, merged };
     },
 
     moveDown() {
         let moved = false;
+        let merged = false;
+        
         for (let c = 0; c < 4; c++) {
             const column = [];
             for (let r = 0; r < 4; r++) {
@@ -201,29 +248,30 @@ const game = {
                 }
             }
 
-            const merged = [];
+            const mergedColumn = [];
             for (let i = column.length - 1; i >= 0; i--) {
                 if (i > 0 && column[i] === column[i - 1]) {
-                    merged.unshift(column[i] * 2);
+                    mergedColumn.unshift(column[i] * 2);
                     this.score += column[i] * 2;
+                    merged = true;
                     i--;
                 } else {
-                    merged.unshift(column[i]);
+                    mergedColumn.unshift(column[i]);
                 }
             }
 
-            while (merged.length < 4) {
-                merged.unshift(0);
+            while (mergedColumn.length < 4) {
+                mergedColumn.unshift(0);
             }
 
             for (let r = 0; r < 4; r++) {
-                if (this.board[r][c] !== merged[r]) {
+                if (this.board[r][c] !== mergedColumn[r]) {
                     moved = true;
                 }
-                this.board[r][c] = merged[r];
+                this.board[r][c] = mergedColumn[r];
             }
         }
-        return moved;
+        return { moved, merged };
     },
 
     isGameOver() {

@@ -7,6 +7,25 @@ const HEIGHT = 720;
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
+// ============ SOUND SETUP ============
+const sounds = {
+    wing: new Audio('wing.mp3'),
+    die: new Audio('die.mp3')
+};
+
+// Set volume levels
+sounds.wing.volume = 0.5;
+sounds.die.volume = 0.6;
+
+// Helper function to play sounds
+function playSound(soundName) {
+    const sound = sounds[soundName];
+    if (sound) {
+        sound.currentTime = 0; // Reset to start
+        sound.play().catch(e => console.log('Sound play failed:', e));
+    }
+}
+// ====================================
 
 const images = {};
 const imageFiles = ["bird.png", "pipe.png", "background.png", "ground.png"];
@@ -55,7 +74,10 @@ class Bird {
         this.jumpPower = -9;
     }
 
-    jump() { this.vel = this.jumpPower; }
+    jump() { 
+        this.vel = this.jumpPower;
+        playSound('wing'); // Play wing sound when jumping
+    }
 
     update(gravity) {
         this.vel += gravity;
@@ -141,6 +163,8 @@ function startGame() {
 }
 
 function gameOver() {
+    playSound('die'); // Play die sound on game over
+    
     gameState = "over";
     running = false;
 
@@ -161,6 +185,7 @@ function goHome() {
     screenHome.classList.add("active");
     screenOver.classList.remove("active");
 }
+
 function updateUI() {
     uiScore.textContent = score;
     uiBest.textContent = bestScore;
@@ -261,13 +286,14 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-
+// Event Listeners
 canvas.addEventListener("mousedown", e => {
     if (gameState === "playing") {
         running = true;
         bird.jump();
     }
 });
+
 canvas.addEventListener("touchstart", e => {
     e.preventDefault();
     if (gameState === "playing") {

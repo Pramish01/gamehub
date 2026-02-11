@@ -376,6 +376,7 @@ h1 {
     to { transform: translateY(0); opacity: 1; }
 }
 
+/* IMPROVED START SCREEN */
 .start-screen {
     position: absolute;
     top: 0;
@@ -390,8 +391,9 @@ h1 {
     align-items: center;
     flex-direction: column;
     z-index: 100;
-    padding: 40px;
+    padding: 30px;
     border: 2px solid rgba(176, 38, 255, 0.4);
+    overflow-y: auto;
 }
 
 .start-screen.hidden {
@@ -399,23 +401,24 @@ h1 {
 }
 
 .start-screen h2 {
-    font-size: 3.5em;
+    font-size: 2.8em;
     font-weight: 800;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     background: linear-gradient(135deg, #00f3ff 0%, #b026ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-align: center;
 }
 
 .instructions-content {
     text-align: center;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1em;
-    line-height: 1.8;
-    max-width: 400px;
-    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95em;
+    line-height: 1.6;
+    max-width: 420px;
+    margin-bottom: 20px;
 }
 
 .instructions-content strong {
@@ -426,29 +429,30 @@ h1 {
 .controls-hint {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .key-icon {
     background: var(--cell-bg);
     border: 2px solid rgba(0, 243, 255, 0.3);
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.2em;
+    font-size: 1em;
     color: var(--neon-cyan);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* IMPROVED START BUTTON */
 .start-btn {
     background: linear-gradient(135deg, #ff006e 0%, #b026ff 100%);
     color: white;
     border: none;
-    padding: 20px 50px;
-    border-radius: 16px;
-    font-size: 1.3em;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 1.05em;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -456,8 +460,10 @@ h1 {
     position: relative;
     overflow: hidden;
     font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    max-width: 240px;
+    width: 100%;
 }
 
 .start-btn::before {
@@ -479,7 +485,7 @@ h1 {
 }
 
 .start-btn:hover {
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-2px) scale(1.03);
     box-shadow: 0 12px 30px rgba(255, 0, 110, 0.6);
 }
 
@@ -487,6 +493,7 @@ h1 {
     transform: translateY(0) scale(1);
 }
 
+/* RESPONSIVE DESIGN */
 @media (max-width: 640px) {
     .container {
         padding: 20px;
@@ -517,8 +524,65 @@ h1 {
         padding: 12px 20px;
     }
 
-    .new-game-btn, .start-btn {
+    .new-game-btn {
         padding: 12px 24px;
         font-size: 1em;
+    }
+
+    .start-screen {
+        padding: 20px;
+    }
+
+    .start-screen h2 {
+        font-size: 2.2em;
+        margin-bottom: 15px;
+    }
+
+    .instructions-content {
+        font-size: 0.9em;
+        max-width: 100%;
+    }
+
+    .key-icon {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .start-btn {
+        padding: 12px 32px;
+        font-size: 0.95em;
+        max-width: 200px;
+    }
+
+    .game-message h2 {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .start-screen h2 {
+        font-size: 1.8em;
+    }
+
+    .instructions-content {
+        font-size: 0.85em;
+    }
+
+    .controls-hint {
+        gap: 6px;
+    }
+
+    .key-icon {
+        padding: 6px 10px;
+        font-size: 0.85em;
+    }
+
+    .start-btn {
+        padding: 10px 28px;
+        font-size: 0.9em;
     }
 }

@@ -4,16 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 </title>
+    <title>2048</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Back to Hub Button */
+        .back-to-hub {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00f3ff 0%, #0ea5e9 100%);
+            color: #0a0e27;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            z-index: 1000;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .back-to-hub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .back-to-hub:active {
+            transform: translateY(0);
+        }
+
+        /* Ensure body doesn't overflow */
+        body {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Make container fit screen */
+        .container {
+            max-height: 100vh;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Back to Hub Button -->
+    <button class="back-to-hub" onclick="window.location.href='../home.html'">
+        ← Back to Hub
+    </button>
+
     <div class="container">
         <h1>2048</h1>
         <div class="header">

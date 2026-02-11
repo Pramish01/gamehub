@@ -4,13 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe </title>
+    <title>Tic Tac Toe</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Back to Hub Button */
+        .back-to-hub {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00f3ff 0%, #0ea5e9 100%);
+            color: #0a0e27;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            z-index: 1001;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .back-to-hub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .back-to-hub:active {
+            transform: translateY(0);
+        }
+
+        /* Ensure no overflow */
+        body {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #game-wrapper {
+            max-height: 100vh;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+
+        #game-container {
+            max-height: 95vh;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Back to Hub Button -->
+    <button class="back-to-hub" onclick="window.location.href='../home.html'">
+        ← Back to Hub
+    </button>
+
     <div id="game-wrapper">
         <div id="game-container">
             <div id="game-header">

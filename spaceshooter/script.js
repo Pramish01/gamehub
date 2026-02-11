@@ -13,6 +13,22 @@ const config = {
     imagesLoaded: false
 };
 
+// Sound System
+const sounds = {
+    gunfire: new Audio('gunfire.mp3'),
+    end: new Audio('end.mp3')
+};
+
+sounds.gunfire.volume = 0.4;
+sounds.end.volume = 0.5;
+
+function playSound(soundName) {
+    if (sounds[soundName]) {
+        sounds[soundName].currentTime = 0;
+        sounds[soundName].play().catch(e => console.log('Audio play failed:', e));
+    }
+}
+
 // Image assets
 const images = {
     player: new Image(),
@@ -40,6 +56,7 @@ let lastEnemySpawn = 0;
 let enemySpawnRate = 1500;
 let lastShot = 0;
 let shootCooldown = 250;
+let lastLevel = 1;
 
 function loadImages() {
     return new Promise((resolve) => {
@@ -151,6 +168,7 @@ function startGame() {
     config.score = 0;
     config.lives = 3;
     config.level = 1;
+    lastLevel = 1;
     bullets = [];
     enemies = [];
     particles = [];
@@ -210,6 +228,7 @@ function update() {
 
         if (checkCollision(player, enemy)) {
             createExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, '#fc8181');
+            
             loseLife();
             return false;
         }
@@ -223,6 +242,8 @@ function update() {
                 createExplosion(enemies[j].x + enemies[j].width / 2,
                     enemies[j].y + enemies[j].height / 2,
                     enemies[j].color);
+                
+                
 
                 config.score += enemies[j].points;
                 updateScore();
@@ -243,6 +264,7 @@ function update() {
         powerup.y += 2;
 
         if (checkCollision(player, powerup)) {
+            
             config.score += 50;
             updateScore();
             createExplosion(powerup.x, powerup.y, '#ffd700');
@@ -261,6 +283,10 @@ function update() {
 
     if (config.score > config.level * 500) {
         config.level++;
+        if (config.level > lastLevel) {
+            
+            lastLevel = config.level;
+        }
         updateLevel();
         enemySpawnRate = Math.max(500, enemySpawnRate - 100);
     }
@@ -370,6 +396,7 @@ function shoot() {
     const now = Date.now();
     if (now - lastShot < shootCooldown) return;
 
+    playSound('gunfire');
     bullets.push({
         x: player.x + player.width / 2 - 2,
         y: player.y,
@@ -447,6 +474,7 @@ function loseLife() {
 
 function gameOver() {
     config.gameRunning = false;
+    playSound('end');
 
     const isNewHighScore = config.score > config.best;
     if (isNewHighScore) {

@@ -6,9 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Shooter</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Back to Hub Button */
+        .back-to-hub {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00f3ff 0%, #0ea5e9 100%);
+            color: #0a0e27;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            z-index: 1000;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .back-to-hub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .back-to-hub:active {
+            transform: translateY(0);
+        }
+
+        /* Ensure no overflow */
+        body {
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        #game-container {
+            max-height: 95vh;
+            height: 90vh;
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Back to Hub Button -->
+    <button class="back-to-hub" onclick="window.location.href='../home.html'">
+        ← Back to Hub
+    </button>
+
     <div id="game-wrapper">
         <div id="game-container">
             <canvas id="game-canvas"></canvas>

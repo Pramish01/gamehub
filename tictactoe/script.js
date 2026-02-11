@@ -11,6 +11,22 @@
         [0, 4, 8], [2, 4, 6]              // diagonals
     ];
 
+    // Sound System
+    const sounds = {
+        add: new Audio('add.mp3'),
+        end: new Audio('end.mp3')
+    };
+
+    sounds.add.volume = 0.4;
+    sounds.end.volume = 0.5;
+
+    function playSound(soundName) {
+        if (sounds[soundName]) {
+            sounds[soundName].currentTime = 0;
+            sounds[soundName].play().catch(e => console.log('Audio play failed:', e));
+        }
+    }
+
     const cells = document.querySelectorAll('.cell');
     const currentTurnEl = document.getElementById('current-turn');
     const scoreX = document.getElementById('score-x');
@@ -53,6 +69,7 @@
     function showWinner(winner, combo) {
         gameActive = false;
         highlightWin(combo);
+        playSound('end');
 
         scores[winner]++;
         (winner === 'X' ? scoreX : scoreO).textContent = scores[winner];
@@ -77,6 +94,7 @@
             // Add fading animation
             cells[cellIndex].classList.add('fading');
             
+            
             // Remove from board and history after animation
             setTimeout(() => {
                 board[cellIndex] = null;
@@ -87,6 +105,7 @@
     }
 
     function resetGame() {
+        
         board = Array(9).fill(null);
         currentPlayer = 'X';
         gameActive = true;
@@ -97,6 +116,7 @@
     }
 
     function resetScores() {
+        
         scores = { X: 0, O: 0 };
         scoreX.textContent = 0;
         scoreO.textContent = 0;
@@ -124,6 +144,7 @@
     });
 
     function placeMove(idx) {
+        playSound('add');
         board[idx] = currentPlayer;
         moveHistory.push({ player: currentPlayer, index: idx });
         renderBoard();
@@ -143,6 +164,7 @@
     playAgainBtn.addEventListener('click', resetGame);
 
     startBtn.addEventListener('click', () => {
+        
         startScreen.classList.remove('show');
         resetGame();
     });

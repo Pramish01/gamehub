@@ -6,6 +6,23 @@ const MAX_QUESTIONS = 50;
 const QUESTIONS_PER_LEVEL = 10;
 const ADMIN_CODE = "9605";
 
+// Sound System
+const sounds = {
+    bg: new Audio('bg.mp3')
+};
+
+sounds.bg.loop = true;
+sounds.bg.volume = 0.3;
+
+function playBgMusic() {
+    sounds.bg.play().catch(e => console.log('Background music play failed:', e));
+}
+
+function stopBgMusic() {
+    sounds.bg.pause();
+    sounds.bg.currentTime = 0;
+}
+
 const questionNumberEl = document.getElementById("questionNumber");
 const questionTextEl = document.getElementById("questionText");
 const optionsContainer = document.getElementById("optionsContainer");
@@ -136,6 +153,7 @@ function selectQuestionsForLevel(level) {
 }
 
 async function loadQuestions() {
+  playBgMusic();
   let fileQuestions = [];
   
   // Try to load from file
@@ -425,11 +443,13 @@ function showResults() {
   const passed = percentage >= 70;
   
   if (passed) {
+    
     currentLevel++;
     saveCurrentLevel(currentLevel);
     resultMessageEl.innerHTML = `🎉 Excellent! You scored ${percentage}%<br>Level ${currentLevel} unlocked! Click "Next Level" to continue.`;
     retakeBtn.textContent = "Next Level";
   } else {
+    
     resultMessageEl.innerHTML = `You scored ${percentage}%<br>You need 70% to advance. Try again!`;
     retakeBtn.textContent = "Retry Level";
   }
@@ -439,6 +459,7 @@ function showResults() {
 }
 
 function resetQuiz() {
+  
   currentQuestion = 0;
   userAnswers = [];
   
@@ -457,10 +478,12 @@ function resetQuiz() {
 
 function nextQuestion() {
   if (userAnswers[currentQuestion] === undefined) {
+    
     feedbackEl.className = "feedback wrong";
     feedbackEl.textContent = "Please choose an answer to continue.";
     return;
   }
+  
   if (currentQuestion < questions.length - 1) {
     currentQuestion += 1;
     displayQuestion();
@@ -470,6 +493,7 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
+  
   if (currentQuestion > 0) {
     currentQuestion -= 1;
     displayQuestion();
@@ -477,6 +501,7 @@ function previousQuestion() {
 }
 
 function openAdmin() {
+  
   adminModal.classList.remove("hidden");
   adminCodeInput.value = "";
   adminBody.classList.add("hidden");
@@ -484,14 +509,18 @@ function openAdmin() {
 }
 
 function closeAdmin() {
+  
   adminModal.classList.add("hidden");
 }
 
 function unlockAdmin() {
+  
   if (adminCodeInput.value.trim() === ADMIN_CODE) {
+    
     adminBody.classList.remove("hidden");
     adminStatus.textContent = "Access granted. You can add questions.";
   } else {
+    
     adminStatus.textContent = "Invalid code. Try again.";
   }
 }
@@ -499,6 +528,7 @@ function unlockAdmin() {
 function addQuestion(event) {
   event.preventDefault();
   if (allQuestions.length >= MAX_QUESTIONS) {
+    
     adminStatus.textContent = `Limit reached. Max ${MAX_QUESTIONS} questions.`;
     return;
   }
@@ -511,10 +541,12 @@ function addQuestion(event) {
   ];
 
   if (!questionText || options.some(option => !option)) {
+    
     adminStatus.textContent = "Please fill in the question and all options.";
     return;
   }
 
+  
   const answerIndex = Number(correctIndexSelect.value);
   const newQuestion = {
     question: questionText,
@@ -531,6 +563,7 @@ function addQuestion(event) {
 }
 
 async function resetQuestions() {
+  
   saveAddedQuestions([]);
   saveCurrentLevel(1);
   saveCompletedQuestions([]);
@@ -541,6 +574,7 @@ async function resetQuestions() {
 }
 
 function downloadQuestions() {
+  
   const payload = allQuestions.map(question => ({
     question: question.question,
     options: question.options,

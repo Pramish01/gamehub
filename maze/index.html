@@ -5,8 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maze Runner</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Back to Hub Button */
+        .back-to-hub {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00f3ff 0%, #0ea5e9 100%);
+            color: #0a0e27;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            z-index: 1000;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .back-to-hub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .back-to-hub:active {
+            transform: translateY(0);
+        }
+
+        /* Ensure no overflow */
+        body {
+            overflow: hidden;
+            height: 100vh;
+            padding: 12px;
+        }
+
+        .container {
+            max-height: 95vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            flex: 1;
+            min-height: 0;
+            height: auto !important;
+            max-height: calc(95vh - 200px);
+        }
+    </style>
 </head>
 <body>
+    <!-- Back to Hub Button -->
+    <button class="back-to-hub" onclick="window.location.href='../home.html'">
+        ← Back to Hub
+    </button>
+
     <div class="container">
         <div class="header">
             <h1>Maze Runner</h1>
@@ -50,7 +105,7 @@
     </div>
 
     <div id="jumpscareOverlay" class="jumpscare" aria-hidden="true">
-        <img id="jumpscareImg" src="images/jumpscare1.png" alt="">
+        <img id="jumpscareImg" src="dora.jpg" alt="">
     </div>
 
     <script src="app.js"></script>

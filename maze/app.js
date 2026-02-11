@@ -17,6 +17,10 @@ const audioFiles = {
 	jumpscare: "sounds/jumpscare.mp3"
 };
 
+// Load Dora image
+const doraImage = new Image();
+doraImage.src = "dora.jpg";
+
 let width = 0;
 let height = 0;
 let cellSize = 30;
@@ -37,7 +41,7 @@ const player = {
 	x: 0,
 	y: 0,
 	speed: 3.2,
-	radius: 9
+	radius: 12
 };
 
 const camera = {
@@ -565,22 +569,20 @@ function drawExit() {
 function drawPlayer() {
 	const px = player.x - camera.x;
 	const py = player.y - camera.y;
-	const glowHue = player.isMoving ? (currentTime * 0.12) % 360 : 180;
-	const glowColor = `hsl(${glowHue}, 90%, 65%)`;
-
+	
+	// Draw Dora image only (no fallback ball)
 	ctx.save();
-	ctx.fillStyle = "#ffffff";
-	ctx.shadowColor = glowColor;
-	ctx.shadowBlur = player.isMoving ? 18 : 10;
+	
+	// Draw circular clipped Dora image
 	ctx.beginPath();
 	ctx.arc(px, py, player.radius, 0, Math.PI * 2);
-	ctx.fill();
-
-	ctx.shadowBlur = player.isMoving ? 30 : 18;
-	ctx.globalAlpha = 0.6;
-	ctx.beginPath();
-	ctx.arc(px, py, player.radius + 4, 0, Math.PI * 2);
-	ctx.fill();
+	ctx.closePath();
+	ctx.clip();
+	
+	// Draw the image centered
+	const imgSize = player.radius * 2;
+	ctx.drawImage(doraImage, px - player.radius, py - player.radius, imgSize, imgSize);
+	
 	ctx.restore();
 }
 
