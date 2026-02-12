@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐅 Bagh-Chal - Tigers and Goats</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐅 Bagh-Chal 🐐</h1>
+            <p class="subtitle">Traditional Nepali Strategy Game</p>
+        </header>
+
+        <div class="game-info">
+            <div class="player-status">
+                <div class="tiger-info">
+                    <h3>🐅 Tigers</h3>
+                    <p>Captured: <span id="capturedGoats">0</span>/5</p>
+                    <p class="win-condition">Win by capturing 5 goats</p>
+                </div>
+                <div class="goat-info">
+                    <h3>🐐 Goats</h3>
+                    <p>Remaining: <span id="remainingGoats">20</span>/20</p>
+                    <p class="win-condition">Win by trapping all tigers</p>
+                </div>
+            </div>
+            
+            <div class="turn-indicator">
+                <p id="turnText">Goat's Turn - Place a Goat</p>
+                <p id="phaseText" class="phase">Placement Phase</p>
+            </div>
+        </div>
+
+        <div class="game-board-container">
+            <canvas id="gameBoard" width="600" height="600"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="newGameBtn" class="btn btn-primary">New Game</button>
+            <button id="rulesBtn" class="btn btn-secondary">Rules</button>
+            <button id="undoBtn" class="btn btn-secondary" disabled>Undo Move</button>
+        </div>
+
+        <div id="gameOverModal" class="modal">
+            <div class="modal-content">
+                <h2 id="winnerText"></h2>
+                <p id="winMessage"></p>
+                <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+
+        <div id="rulesModal" class="modal">
+            <div class="modal-content rules-content">
+                <span class="close">&times;</span>
+                <h2>🎯 How to Play Bagh-Chal</h2>
+                
+                <div class="rules-section">
+                    <h3>🎮 Objective</h3>
+                    <ul>
+                        <li><strong>Tigers 🐅:</strong> Capture 5 goats to win</li>
+                        <li><strong>Goats 🐐:</strong> Trap all 4 tigers so they cannot move</li>
+                    </ul>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🧩 Game Phases</h3>
+                    <h4>Phase 1: Placement Phase</h4>
+                    <ul>
+                        <li><strong>Goat places one piece</strong> → <strong>Tiger moves</strong> → Repeat</li>
+                        <li>Goats place one at a time on any empty intersection</li>
+                        <li>After each goat placement, tigers can move one step</li>
+                        <li>Tigers can also capture during placement phase</li>
+                        <li>Continue alternating until all 20 goats are placed</li>
+                    </ul>
+                    <h4>Phase 2: Movement Phase</h4>
+                    <ul>
+                        <li>Begins after all 20 goats are placed</li>
+                        <li>Both goats and tigers can move</li>
+                        <li>Turns continue to alternate</li>
+                        <li>Game continues until win condition is met</li>
+                    </ul>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🐐 Goat Rules</h3>
+                    <ul>
+                        <li><strong>Placement:</strong> Click any empty point to place</li>
+                        <li><strong>Movement:</strong> Click a goat, then an adjacent empty point</li>
+                        <li>Can only move one step along connected lines</li>
+                        <li>Cannot jump or capture tigers</li>
+                        <li>Work together to trap all tigers</li>
+                    </ul>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🐅 Tiger Rules</h3>
+                    <ul>
+                        <li>Move one step along connected lines</li>
+                        <li>Capture by jumping over a goat to an empty space</li>
+                        <li>Can only jump in straight lines (horizontal, vertical, diagonal)</li>
+                        <li>Only one goat per jump</li>
+                    </ul>
+                </div>
+
+                <div class="rules-section">
+                    <h3>⚖️ Game Flow</h3>
+                    <ul>
+                        <li>Goats always move first</li>
+                        <li>Turns alternate between goats and tigers</li>
+                        <li>Game ends when tigers capture 5 goats OR all tigers are trapped</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
