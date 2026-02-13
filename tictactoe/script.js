@@ -3,15 +3,14 @@
     let currentPlayer = 'X';
     let gameActive = true;
     let scores = { X: 0, O: 0 };
-    let moveHistory = []; // Track moves in order [{ player, index }]
+    let moveHistory = [];
 
     const WIN_COMBOS = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-        [0, 4, 8], [2, 4, 6]              // diagonals
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
     ];
 
-    // Sound System
     const sounds = {
         add: new Audio('add.mp3'),
         end: new Audio('end.mp3')
@@ -84,18 +83,15 @@
     function removeOldestMove() {
         if (moveHistory.length === 0) return;
 
-        // Find the oldest move for the current player
         const oldestMoveIndex = moveHistory.findIndex(move => move.player === currentPlayer);
-        
+
         if (oldestMoveIndex !== -1) {
             const oldMove = moveHistory[oldestMoveIndex];
             const cellIndex = oldMove.index;
 
-            // Add fading animation
             cells[cellIndex].classList.add('fading');
-            
-            
-            // Remove from board and history after animation
+
+
             setTimeout(() => {
                 board[cellIndex] = null;
                 moveHistory.splice(oldestMoveIndex, 1);
@@ -105,7 +101,7 @@
     }
 
     function resetGame() {
-        
+
         board = Array(9).fill(null);
         currentPlayer = 'X';
         gameActive = true;
@@ -116,7 +112,7 @@
     }
 
     function resetScores() {
-        
+
         scores = { X: 0, O: 0 };
         scoreX.textContent = 0;
         scoreO.textContent = 0;
@@ -128,12 +124,10 @@
             const idx = parseInt(cell.dataset.index);
             if (!gameActive || board[idx]) return;
 
-            // Check if player has 3 moves already
             const playerMoves = moveHistory.filter(move => move.player === currentPlayer);
             if (playerMoves.length >= 3) {
                 removeOldestMove();
-                
-                // Wait for fade animation before placing new move
+
                 setTimeout(() => {
                     placeMove(idx);
                 }, 350);
@@ -164,7 +158,7 @@
     playAgainBtn.addEventListener('click', resetGame);
 
     startBtn.addEventListener('click', () => {
-        
+
         startScreen.classList.remove('show');
         resetGame();
     });

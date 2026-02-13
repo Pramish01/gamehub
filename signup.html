@@ -7,7 +7,9 @@
     <title>Game Hub - Create Account</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./login-style.css">
 </head>
 
@@ -82,50 +84,7 @@
 
     </div>
 
-    <script>
-        document.getElementById('signup-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const firstname = document.getElementById('firstname').value;
-            const lastname = document.getElementById('lastname').value;
-            const email = document.getElementById('email').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const terms = document.getElementById('terms').checked;
-            
-            // Validation
-            if (!terms) {
-                alert('Please accept the Terms & Conditions');
-                return;
-            }
-            
-            if (password.length < 6) {
-                alert('Password must be at least 6 characters long');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // In a real app, you would send this to a server
-            // For now, we'll just show success and redirect
-            alert('Account created successfully! Please login.');
-            window.location.href = 'index.html';
-        });
-
-        // Orb animation on mouse move
-        document.addEventListener('mousemove', e => {
-            document.querySelectorAll('.orb').forEach((orb, i) => {
-                const speed = (i + 1) * 30;
-                const x = (e.clientX / speed);
-                const y = (e.clientY / speed);
-                orb.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-    </script>
+    <script src="./signup-script.js"></script>
 
 </body>
 

@@ -17,7 +17,6 @@ const audioFiles = {
 	jumpscare: "sounds/jumpscare.mp3"
 };
 
-// Load Dora image
 const doraImage = new Image();
 doraImage.src = "dora.jpg";
 
@@ -109,14 +108,14 @@ function playSound(name, { restart = true, volume = 1 } = {}) {
 		if (restart) {
 			sound.currentTime = 0;
 		}
-		sound.play().catch(() => {});
+		sound.play().catch(() => { });
 		return;
 	}
 	sound.volume = finalVolume;
 	if (restart) {
 		sound.currentTime = 0;
 	}
-	sound.play().catch(() => {});
+	sound.play().catch(() => { });
 }
 
 function stopSound(name) {
@@ -569,20 +568,17 @@ function drawExit() {
 function drawPlayer() {
 	const px = player.x - camera.x;
 	const py = player.y - camera.y;
-	
-	// Draw Dora image only (no fallback ball)
+
 	ctx.save();
-	
-	// Draw circular clipped Dora image
+
 	ctx.beginPath();
 	ctx.arc(px, py, player.radius, 0, Math.PI * 2);
 	ctx.closePath();
 	ctx.clip();
-	
-	// Draw the image centered
+
 	const imgSize = player.radius * 2;
 	ctx.drawImage(doraImage, px - player.radius, py - player.radius, imgSize, imgSize);
-	
+
 	ctx.restore();
 }
 

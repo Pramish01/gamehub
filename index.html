@@ -7,7 +7,9 @@
     <title>Game Hub - Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./login-style.css">
 </head>
 
@@ -61,48 +63,8 @@
 
     </div>
 
-    <script>
-        // Handle login form submission
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // Basic validation
-            if (email && username && password) {
-                // Store login status in localStorage
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('username', username);
-                localStorage.setItem('email', email);
-                
-                // Redirect to home page (games page)
-                window.location.href = 'home.html';
-            } else {
-                alert('Please fill in all fields');
-            }
-        });
-        
-        // Check if already logged in
-        window.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn === 'true') {
-                // Already logged in, redirect to home
-                window.location.href = 'home.html';
-            }
-        });
-
-        // Orb animation on mouse move
-        document.addEventListener('mousemove', e => {
-            document.querySelectorAll('.orb').forEach((orb, i) => {
-                const speed = (i + 1) * 30;
-                const x = (e.clientX / speed);
-                const y = (e.clientY / speed);
-                orb.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-    </script>
+    <script src="./auth.js"></script>
+    <script src="./login-script.js"></script>
 </body>
 
 </html>

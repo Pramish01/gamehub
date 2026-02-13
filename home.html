@@ -7,8 +7,14 @@
     <title>Game Hub - Choose Your Game</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./home-style.css">
+    <script>
+        const username = localStorage.getItem("username")
+        document.getElementById("username").innerHTML = username
+    </script>
 </head>
 
 <body>
@@ -23,13 +29,35 @@
         <header>
             <h1 class="logo">GAME HUB</h1>
             <div class="user-section">
-                <span class="welcome-text">Player_<span id="username">One</span></span>
+                <span class="welcome-text" id="username"></span>
                 <button class="logout-btn" id="logout-btn">
                     <span>Logout</span>
                     <span class="logout-icon">🚪</span>
                 </button>
             </div>
         </header>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const username = localStorage.getItem("username");
+                const usernameElement = document.getElementById("username");
+                const logoutBtn = document.getElementById("logout-btn");
+
+                if (username) {
+                    usernameElement.textContent = "Welcome, " + username;
+                } else {
+                    usernameElement.textContent = "Welcome, Guest";
+                }
+
+                logoutBtn.addEventListener("click", function () {
+                    localStorage.removeItem("username");
+                    window.location.href = "login.html";
+                });
+
+            });
+        </script>
+
 
         <section class="hero-section">
             <h2 class="hero-title">CHOOSE YOUR GAME</h2>
@@ -114,11 +142,20 @@
                         Play Now
                     </a>
                 </div>
+                <div class="game-card">
+                    <span class="game-icon">?</span>
+                    <h3 class="game-title">Comming Soon</h3>
+                    <p class="game-description">In The Development Phase</p>
+                    <a href="" class="play-btn">
+                        Play Now
+                    </a>
+                </div>
             </div>
         </section>
 
     </div>
 
+    <script src="./gamehub/auth.js"></script>
     <script src="./home-script.js"></script>
 </body>
 

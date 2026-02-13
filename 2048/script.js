@@ -1,16 +1,13 @@
-// Sound objects
 const sounds = {
     win: new Audio('win.mp3'),
     lose: new Audio('lose.mp3'),
-    add: new Audio('add.mp3')  // Sound for merging tiles
+    add: new Audio('add.mp3')
 };
 
-// Set volume levels
 sounds.win.volume = 0.6;
 sounds.lose.volume = 0.5;
 sounds.add.volume = 0.4;
 
-// Helper function to play sounds
 function playSound(soundName) {
     const sound = sounds[soundName];
     if (sound) {
@@ -116,9 +113,9 @@ const game = {
 
         if (moved) {
             if (merged) {
-                playSound('add'); // Play merge sound when tiles combine
+                playSound('add');
             }
-            
+
             const newTile = this.addRandomTile();
             this.renderBoard(newTile);
             this.updateScore();
@@ -126,10 +123,10 @@ const game = {
 
             setTimeout(() => {
                 if (this.checkWin()) {
-                    playSound('win'); // Play win sound
+                    playSound('win');
                     this.showMessage('You Win! 🎉');
                 } else if (this.isGameOver()) {
-                    playSound('lose'); // Play lose sound
+                    playSound('lose');
                     this.showMessage('Game Over!');
                 }
             }, 200);
@@ -139,7 +136,7 @@ const game = {
     moveLeft() {
         let moved = false;
         let merged = false;
-        
+
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
             const mergedRow = [];
@@ -170,7 +167,7 @@ const game = {
     moveRight() {
         let moved = false;
         let merged = false;
-        
+
         for (let r = 0; r < 4; r++) {
             const row = this.board[r].filter(val => val !== 0);
             const mergedRow = [];
@@ -201,7 +198,7 @@ const game = {
     moveUp() {
         let moved = false;
         let merged = false;
-        
+
         for (let c = 0; c < 4; c++) {
             const column = [];
             for (let r = 0; r < 4; r++) {
@@ -239,7 +236,7 @@ const game = {
     moveDown() {
         let moved = false;
         let merged = false;
-        
+
         for (let c = 0; c < 4; c++) {
             const column = [];
             for (let r = 0; r < 4; r++) {

@@ -24,7 +24,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Background Grid */
 .bg-grid {
     position: fixed;
     inset: 0;
@@ -41,12 +40,12 @@ body {
     from {
         transform: perspective(500px) rotateX(60deg) translateY(0);
     }
+
     to {
         transform: perspective(500px) rotateX(60deg) translateY(50px);
     }
 }
 
-/* Floating Orbs */
 .orb {
     position: fixed;
     border-radius: 50%;
@@ -82,18 +81,21 @@ body {
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(0, 0) scale(1);
     }
+
     33% {
         transform: translate(50px, -50px) scale(1.1);
     }
+
     66% {
         transform: translate(-40px, 40px) scale(0.9);
     }
 }
 
-/* Container */
 .container {
     position: relative;
     z-index: 1;
@@ -103,7 +105,6 @@ body {
     padding-bottom: 4rem;
 }
 
-/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -156,7 +157,7 @@ header {
     align-items: center;
     gap: 0.6rem;
     padding: 0.85rem 1.8rem;
-    
+
     background: linear-gradient(135deg, #ff006e, #ff4d4d);
     color: #fff;
     font-weight: 700;
@@ -164,13 +165,13 @@ header {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
+
     border: none;
     border-radius: 12px;
-    
+
     cursor: pointer;
     transition: all 0.3s ease;
-    
+
     box-shadow: 0 6px 20px rgba(255, 0, 110, 0.3);
 }
 
@@ -187,7 +188,6 @@ header {
     font-size: 1.2rem;
 }
 
-/* Hero Section */
 .hero-section {
     text-align: center;
     margin-bottom: 3rem;
@@ -210,7 +210,6 @@ header {
     font-weight: 400;
 }
 
-/* Category Section */
 .category {
     margin-bottom: 3rem;
 }
@@ -236,14 +235,12 @@ header {
     letter-spacing: 1px;
 }
 
-/* Game Grid */
 .game-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
 }
 
-/* Game Card */
 .game-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -277,7 +274,7 @@ header {
 
 .game-card:hover {
     transform: translateY(-10px) scale(1.03);
-    box-shadow: 
+    box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.4),
         0 0 60px rgba(176, 38, 255, 0.3);
     border-color: transparent;
@@ -309,7 +306,6 @@ header {
     margin-bottom: 1.5rem;
 }
 
-/* Play Button */
 .play-btn {
     margin-top: 1rem;
     padding: 0.9rem 2.5rem;
@@ -349,7 +345,7 @@ header {
 
 .play-btn:hover {
     transform: scale(1.08);
-    box-shadow: 
+    box-shadow:
         0 8px 25px rgba(0, 255, 135, 0.5),
         0 0 30px rgba(0, 243, 255, 0.4);
 }
@@ -358,7 +354,6 @@ header {
     transform: scale(1.03);
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
     .game-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -369,36 +364,36 @@ header {
     .game-grid {
         grid-template-columns: 1fr;
     }
-    
+
     header {
         justify-content: center;
         text-align: center;
     }
-    
+
     .logo {
         font-size: 2rem;
     }
-    
+
     .user-section {
         width: 100%;
         justify-content: center;
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .logout-btn {
         width: 100%;
         justify-content: center;
     }
-    
+
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1rem;
     }
-    
+
     .category-title {
         font-size: 1.5rem;
     }
@@ -408,16 +403,16 @@ header {
     .container {
         padding: 1.5rem;
     }
-    
+
     .logo {
         font-size: 1.8rem;
         letter-spacing: 2px;
     }
-    
+
     .game-card {
         padding: 2rem 1.5rem;
     }
-    
+
     .hero-title {
         font-size: 1.8rem;
     }

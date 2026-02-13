@@ -74,7 +74,7 @@ class Bird {
         this.jumpPower = -9;
     }
 
-    jump() { 
+    jump() {
         this.vel = this.jumpPower;
         playSound('wing'); // Play wing sound when jumping
     }
@@ -164,7 +164,7 @@ function startGame() {
 
 function gameOver() {
     playSound('die'); // Play die sound on game over
-    
+
     gameState = "over";
     running = false;
 

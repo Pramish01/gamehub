@@ -1,13 +1,10 @@
-// Game configuration
 const CARD_EMOJIS = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎬', '🎸', '🎹', '🎺', '🎻', '🎤', '🏀', '⚽', '🏈', '⚾', '🎾', '🏐', '🏓', '🥊'];
 
-// Sound System
 const sounds = {
     bg: new Audio('bg.mp3'),
     win: new Audio('win.mp3')
 };
 
-// Set background music to loop
 sounds.bg.loop = true;
 sounds.bg.volume = 0.3;
 
@@ -27,7 +24,6 @@ function stopBgMusic() {
     sounds.bg.currentTime = 0;
 }
 
-// Game state
 let gameState = {
     cards: [],
     flippedCards: [],
@@ -40,7 +36,6 @@ let gameState = {
     totalPairs: 0
 };
 
-// DOM elements
 const gameBoard = document.getElementById('gameBoard');
 const movesEl = document.getElementById('moves');
 const timerEl = document.getElementById('timer');
@@ -56,13 +51,11 @@ const newRecordEl = document.getElementById('newRecord');
 const difficultySelector = document.getElementById('difficultySelector');
 const difficultyBtns = document.querySelectorAll('.difficulty-btn');
 
-// Initialize game
 function init() {
     loadBestScore();
     setupEventListeners();
 }
 
-// Setup event listeners
 function setupEventListeners() {
     newGameBtn.addEventListener('click', () => {
         playBgMusic();
@@ -87,49 +80,42 @@ function setupEventListeners() {
     });
 }
 
-// Show difficulty selector
 function showDifficultySelector() {
     difficultySelector.classList.remove('hidden');
     gameBoard.innerHTML = '';
-    gameBoard.className = 'game-board'; // Reset to base class only
+    gameBoard.className = 'game-board';
     stopTimer();
 }
 
-// Start new game
 function startNewGame(pairs) {
     difficultySelector.classList.add('hidden');
-    
+
     gameState.totalPairs = pairs;
     gameState.difficulty = pairs === 6 ? 'easy' : pairs === 8 ? 'medium' : 'hard';
-    
-    // Set grid layout - the CSS handles display based on having content
+
     gameBoard.className = `game-board ${gameState.difficulty}`;
-    
-    // Reset game state
+
     gameState.flippedCards = [];
     gameState.matchedPairs = 0;
     gameState.moves = 0;
     gameState.seconds = 0;
     gameState.gameStarted = false;
-    
+
     updateMoves();
     updateTimer();
     stopTimer();
     loadBestScore();
-    
-    // Create and shuffle cards
+
     createCards(pairs);
     renderCards();
 }
 
-// Reset current game
 function resetGame() {
     if (gameState.totalPairs) {
         startNewGame(gameState.totalPairs);
     }
 }
 
-// Create cards
 function createCards(pairs) {
     const selectedEmojis = CARD_EMOJIS.slice(0, pairs);
     const cardPairs = [...selectedEmojis, ...selectedEmojis];
@@ -141,7 +127,6 @@ function createCards(pairs) {
     }));
 }
 
-// Shuffle array
 function shuffle(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -151,7 +136,6 @@ function shuffle(array) {
     return shuffled;
 }
 
-// Render cards
 function renderCards() {
     gameBoard.innerHTML = '';
     gameState.cards.forEach(card => {
@@ -160,51 +144,45 @@ function renderCards() {
     });
 }
 
-// Create card element
 function createCardElement(card) {
     const cardEl = document.createElement('div');
     cardEl.className = 'card';
     cardEl.dataset.id = card.id;
-    
+
     if (card.flipped) {
         cardEl.classList.add('flipped');
     }
-    
+
     if (card.matched) {
         cardEl.classList.add('matched');
     }
-    
+
     cardEl.innerHTML = `
         <div class="card-face card-front"></div>
         <div class="card-face card-back">${card.emoji}</div>
     `;
-    
+
     cardEl.addEventListener('click', () => handleCardClick(card.id));
-    
+
     return cardEl;
 }
 
-// Handle card click
 function handleCardClick(cardId) {
     const card = gameState.cards.find(c => c.id === cardId);
-    
-    // Ignore if card is already flipped, matched, or two cards are already flipped
+
     if (card.flipped || card.matched || gameState.flippedCards.length === 2) {
         return;
     }
-    
-    // Start timer on first move
+
     if (!gameState.gameStarted) {
         startTimer();
         gameState.gameStarted = true;
     }
-    
-    // Flip card
+
     card.flipped = true;
     gameState.flippedCards.push(card);
     updateCard(cardId);
-    
-    // Check for match when two cards are flipped
+
     if (gameState.flippedCards.length === 2) {
         gameState.moves++;
         updateMoves();
@@ -212,36 +190,32 @@ function handleCardClick(cardId) {
     }
 }
 
-// Update single card in DOM
 function updateCard(cardId) {
     const cardEl = document.querySelector(`[data-id="${cardId}"]`);
     const card = gameState.cards.find(c => c.id === cardId);
-    
+
     if (card.flipped) {
         cardEl.classList.add('flipped');
     }
-    
+
     if (card.matched) {
         cardEl.classList.add('matched');
     }
 }
 
-// Check if flipped cards match
 function checkMatch() {
     const [card1, card2] = gameState.flippedCards;
-    
+
     if (card1.emoji === card2.emoji) {
-        // Match found
         card1.matched = true;
         card2.matched = true;
         gameState.matchedPairs++;
-        
+
         updateCard(card1.id);
         updateCard(card2.id);
-        
+
         gameState.flippedCards = [];
-        
-        // Check if game is won
+
         if (gameState.matchedPairs === gameState.totalPairs) {
             setTimeout(() => {
                 playSound('win');
@@ -250,23 +224,21 @@ function checkMatch() {
             }, 500);
         }
     } else {
-        // No match - flip back after delay
         setTimeout(() => {
             card1.flipped = false;
             card2.flipped = false;
-            
+
             const cardEl1 = document.querySelector(`[data-id="${card1.id}"]`);
             const cardEl2 = document.querySelector(`[data-id="${card2.id}"]`);
-            
+
             cardEl1.classList.remove('flipped');
             cardEl2.classList.remove('flipped');
-            
+
             gameState.flippedCards = [];
         }, 1000);
     }
 }
 
-// Timer functions
 function startTimer() {
     gameState.timerInterval = setInterval(() => {
         gameState.seconds++;
@@ -287,22 +259,19 @@ function updateTimer() {
     timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// Update moves
 function updateMoves() {
     movesEl.textContent = gameState.moves;
 }
 
-// Win game
 function winGame() {
     stopTimer();
-    
+
     finalMovesEl.textContent = gameState.moves;
     finalTimeEl.textContent = timerEl.textContent;
-    
-    // Check and save best score
+
     const currentScore = gameState.moves;
     const bestScore = getBestScore(gameState.difficulty);
-    
+
     if (bestScore === null || currentScore < bestScore) {
         saveBestScore(gameState.difficulty, currentScore);
         loadBestScore();
@@ -310,11 +279,10 @@ function winGame() {
     } else {
         newRecordEl.classList.add('hidden');
     }
-    
+
     showModal();
 }
 
-// Modal functions
 function showModal() {
     winModal.classList.remove('hidden');
 }
@@ -323,7 +291,6 @@ function hideModal() {
     winModal.classList.add('hidden');
 }
 
-// Best score functions
 function getBestScore(difficulty) {
     const scores = JSON.parse(localStorage.getItem('memoryGameBestScores') || '{}');
     return scores[difficulty] || null;
@@ -344,5 +311,4 @@ function loadBestScore() {
     }
 }
 
-// Initialize on page load
 init();

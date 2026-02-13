@@ -6,21 +6,20 @@ const MAX_QUESTIONS = 50;
 const QUESTIONS_PER_LEVEL = 10;
 const ADMIN_CODE = "9605";
 
-// Sound System
 const sounds = {
-    bg: new Audio('bg.mp3')
+  bg: new Audio('bg.mp3')
 };
 
 sounds.bg.loop = true;
 sounds.bg.volume = 0.3;
 
 function playBgMusic() {
-    sounds.bg.play().catch(e => console.log('Background music play failed:', e));
+  sounds.bg.play().catch(e => console.log('Background music play failed:', e));
 }
 
 function stopBgMusic() {
-    sounds.bg.pause();
-    sounds.bg.currentTime = 0;
+  sounds.bg.pause();
+  sounds.bg.currentTime = 0;
 }
 
 const questionNumberEl = document.getElementById("questionNumber");
@@ -133,21 +132,18 @@ function saveCompletedQuestions(completed) {
 
 function selectQuestionsForLevel(level) {
   const completed = getCompletedQuestions();
-  
-  // Filter out already completed questions
+
   const available = allQuestions.filter(q => {
     const questionKey = q.question + JSON.stringify(q.options);
     return !completed.includes(questionKey);
   });
 
-  // If not enough available questions, reset completed list
   if (available.length < QUESTIONS_PER_LEVEL) {
     completedQuestions = [];
     saveCompletedQuestions([]);
     return allQuestions.slice(0, QUESTIONS_PER_LEVEL);
   }
 
-  // Shuffle and select questions for this level
   const shuffled = [...available].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, QUESTIONS_PER_LEVEL);
 }
@@ -155,8 +151,7 @@ function selectQuestionsForLevel(level) {
 async function loadQuestions() {
   playBgMusic();
   let fileQuestions = [];
-  
-  // Try to load from file
+
   try {
     const response = await fetch(FILE_PATH);
     if (response.ok) {
@@ -170,7 +165,6 @@ async function loadQuestions() {
     console.warn("Failed to load questions file:", error);
   }
 
-  // Use embedded questions if file loading failed
   if (!fileQuestions.length) {
     console.log("Using embedded questions");
     fileQuestions = [
@@ -330,19 +324,16 @@ async function loadQuestions() {
   const added = getAddedQuestions();
   const merged = [...fileQuestions, ...added];
   allQuestions = merged.map(normalizeQuestion);
-  
+
   console.log(`Total questions available: ${allQuestions.length}`);
-  
-  // Load current level and completed questions
+
   currentLevel = getCurrentLevel();
   completedQuestions = getCompletedQuestions();
-  
-  // Select questions for current level
+
   questions = selectQuestionsForLevel(currentLevel);
-  
+
   console.log(`Selected ${questions.length} questions for level ${currentLevel}`);
-  
-  // Update level display
+
   if (levelDisplayEl) {
     levelDisplayEl.textContent = `Level ${currentLevel}`;
   }
@@ -428,8 +419,7 @@ function showResults() {
   const totalScore = calculateScore();
   finalScoreEl.textContent = `${totalScore}/${questions.length}`;
   const percentage = Math.round((totalScore / questions.length) * 100);
-  
-  // Mark current questions as completed
+
   const completed = getCompletedQuestions();
   questions.forEach(q => {
     const questionKey = q.question + JSON.stringify(q.options);
@@ -438,39 +428,36 @@ function showResults() {
     }
   });
   saveCompletedQuestions(completed);
-  
-  // Determine if user passed (70% or higher)
+
   const passed = percentage >= 70;
-  
+
   if (passed) {
-    
+
     currentLevel++;
     saveCurrentLevel(currentLevel);
     resultMessageEl.innerHTML = `🎉 Excellent! You scored ${percentage}%<br>Level ${currentLevel} unlocked! Click "Next Level" to continue.`;
     retakeBtn.textContent = "Next Level";
   } else {
-    
+
     resultMessageEl.innerHTML = `You scored ${percentage}%<br>You need 70% to advance. Try again!`;
     retakeBtn.textContent = "Retry Level";
   }
-  
+
   quizCard.classList.add("hidden");
   resultsCard.classList.remove("hidden");
 }
 
 function resetQuiz() {
-  
+
   currentQuestion = 0;
   userAnswers = [];
-  
-  // Select new questions for current level
+
   questions = selectQuestionsForLevel(currentLevel);
-  
-  // Update level display
+
   if (levelDisplayEl) {
     levelDisplayEl.textContent = `Level ${currentLevel}`;
   }
-  
+
   resultsCard.classList.add("hidden");
   quizCard.classList.remove("hidden");
   displayQuestion();
@@ -478,12 +465,12 @@ function resetQuiz() {
 
 function nextQuestion() {
   if (userAnswers[currentQuestion] === undefined) {
-    
+
     feedbackEl.className = "feedback wrong";
     feedbackEl.textContent = "Please choose an answer to continue.";
     return;
   }
-  
+
   if (currentQuestion < questions.length - 1) {
     currentQuestion += 1;
     displayQuestion();
@@ -493,7 +480,7 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
-  
+
   if (currentQuestion > 0) {
     currentQuestion -= 1;
     displayQuestion();
@@ -501,7 +488,7 @@ function previousQuestion() {
 }
 
 function openAdmin() {
-  
+
   adminModal.classList.remove("hidden");
   adminCodeInput.value = "";
   adminBody.classList.add("hidden");
@@ -509,18 +496,18 @@ function openAdmin() {
 }
 
 function closeAdmin() {
-  
+
   adminModal.classList.add("hidden");
 }
 
 function unlockAdmin() {
-  
+
   if (adminCodeInput.value.trim() === ADMIN_CODE) {
-    
+
     adminBody.classList.remove("hidden");
     adminStatus.textContent = "Access granted. You can add questions.";
   } else {
-    
+
     adminStatus.textContent = "Invalid code. Try again.";
   }
 }
@@ -528,7 +515,7 @@ function unlockAdmin() {
 function addQuestion(event) {
   event.preventDefault();
   if (allQuestions.length >= MAX_QUESTIONS) {
-    
+
     adminStatus.textContent = `Limit reached. Max ${MAX_QUESTIONS} questions.`;
     return;
   }
@@ -541,12 +528,12 @@ function addQuestion(event) {
   ];
 
   if (!questionText || options.some(option => !option)) {
-    
+
     adminStatus.textContent = "Please fill in the question and all options.";
     return;
   }
 
-  
+
   const answerIndex = Number(correctIndexSelect.value);
   const newQuestion = {
     question: questionText,
@@ -563,7 +550,7 @@ function addQuestion(event) {
 }
 
 async function resetQuestions() {
-  
+
   saveAddedQuestions([]);
   saveCurrentLevel(1);
   saveCompletedQuestions([]);
@@ -574,7 +561,7 @@ async function resetQuestions() {
 }
 
 function downloadQuestions() {
-  
+
   const payload = allQuestions.map(question => ({
     question: question.question,
     options: question.options,

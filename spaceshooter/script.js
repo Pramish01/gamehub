@@ -13,7 +13,6 @@ const config = {
     imagesLoaded: false
 };
 
-// Sound System
 const sounds = {
     gunfire: new Audio('gunfire.mp3'),
     end: new Audio('end.mp3')
@@ -29,7 +28,6 @@ function playSound(soundName) {
     }
 }
 
-// Image assets
 const images = {
     player: new Image(),
     rock1: new Image(),
@@ -77,13 +75,11 @@ function loadImages() {
         images.rock2.onload = imageLoaded;
         images.rock3.onload = imageLoaded;
 
-        // Set image sources
         images.player.src = 'aircraft.png';
         images.rock1.src = '1.png';
         images.rock2.src = '2.png';
         images.rock3.src = '3.png';
 
-        // Fallback in case images fail to load
         setTimeout(() => {
             if (!config.imagesLoaded) {
                 console.warn('Some images failed to load, using fallback graphics');
@@ -129,7 +125,6 @@ function init() {
         document.getElementById('mobile-controls').classList.add('show');
     }
 
-    // Load images
     loadImages();
 }
 
@@ -157,7 +152,6 @@ function setupMobileControls() {
         config.keys['ArrowRight'] = false;
     });
 
-    // Shooting is now automatic, no need for shoot button handler
 }
 
 function startGame() {
@@ -206,7 +200,6 @@ function update() {
         player.x = Math.min(config.width - player.width, player.x + player.speed);
     }
 
-    // Automatic continuous shooting
     shoot();
 
     const now = Date.now();
@@ -222,13 +215,12 @@ function update() {
 
     enemies = enemies.filter(enemy => {
         enemy.y += enemy.speed;
-        
-        // Rotate the rock
+
         enemy.rotation += enemy.rotationSpeed;
 
         if (checkCollision(player, enemy)) {
             createExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, '#fc8181');
-            
+
             loseLife();
             return false;
         }
@@ -242,8 +234,8 @@ function update() {
                 createExplosion(enemies[j].x + enemies[j].width / 2,
                     enemies[j].y + enemies[j].height / 2,
                     enemies[j].color);
-                
-                
+
+
 
                 config.score += enemies[j].points;
                 updateScore();
@@ -264,7 +256,7 @@ function update() {
         powerup.y += 2;
 
         if (checkCollision(player, powerup)) {
-            
+
             config.score += 50;
             updateScore();
             createExplosion(powerup.x, powerup.y, '#ffd700');
@@ -284,7 +276,7 @@ function update() {
     if (config.score > config.level * 500) {
         config.level++;
         if (config.level > lastLevel) {
-            
+
             lastLevel = config.level;
         }
         updateLevel();
@@ -312,15 +304,13 @@ function draw() {
         config.ctx.save();
         config.ctx.translate(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2);
         config.ctx.rotate(enemy.rotation);
-        
+
         if (enemy.image && enemy.image.complete && enemy.image.naturalWidth > 0) {
-            // Draw the rock image
             config.ctx.shadowBlur = 15;
             config.ctx.shadowColor = enemy.color;
             config.ctx.drawImage(enemy.image, -enemy.width / 2, -enemy.height / 2, enemy.width, enemy.height);
             config.ctx.shadowBlur = 0;
         } else {
-            // Fallback: draw triangle shape
             config.ctx.fillStyle = enemy.color;
             config.ctx.shadowBlur = 15;
             config.ctx.shadowColor = enemy.color;
@@ -332,7 +322,7 @@ function draw() {
             config.ctx.fill();
             config.ctx.shadowBlur = 0;
         }
-        
+
         config.ctx.restore();
     });
 
@@ -358,7 +348,6 @@ function draw() {
 
 function drawPlayer() {
     if (images.player.complete && images.player.naturalWidth > 0) {
-        // Draw the aircraft image
         config.ctx.save();
         config.ctx.shadowBlur = 20;
         config.ctx.shadowColor = player.color;
@@ -366,7 +355,6 @@ function drawPlayer() {
         config.ctx.shadowBlur = 0;
         config.ctx.restore();
     } else {
-        // Fallback: draw triangle shape
         config.ctx.fillStyle = player.color;
         config.ctx.shadowBlur = 20;
         config.ctx.shadowColor = player.color;

@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐅 Bagh-Chal - Tigers and Goats</title>
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐅 Bagh-Chal - Tigers and Goats</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    .back-to-hub {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00f3ff 0%, #0ea5e9 100%);
+        color: #0a0e27;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 0.95em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+        z-index: 1000;
+        font-family: 'Outfit', sans-serif;
+    }
+</style>
 </head>
+
 <body>
+    <button class="back-to-hub" onclick="window.location.href='../home.html'">
+        ← Back to Hub
+    </button>
     <div class="container">
         <header>
             <h1>🐅 Bagh-Chal 🐐</h1>
@@ -26,7 +49,7 @@
                     <p class="win-condition">Win by trapping all tigers</p>
                 </div>
             </div>
-            
+
             <div class="turn-indicator">
                 <p id="turnText">Goat's Turn - Place a Goat</p>
                 <p id="phaseText" class="phase">Placement Phase</p>
@@ -55,7 +78,7 @@
             <div class="modal-content rules-content">
                 <span class="close">&times;</span>
                 <h2>🎯 How to Play Bagh-Chal</h2>
-                
+
                 <div class="rules-section">
                     <h3>🎮 Objective</h3>
                     <ul>
@@ -118,4 +141,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

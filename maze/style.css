@@ -87,12 +87,29 @@ canvas {
 }
 
 @keyframes screen-shake {
-	0% { transform: translate(0, 0); }
-	20% { transform: translate(-3px, 2px); }
-	40% { transform: translate(3px, -2px); }
-	60% { transform: translate(-2px, -3px); }
-	80% { transform: translate(2px, 3px); }
-	100% { transform: translate(0, 0); }
+	0% {
+		transform: translate(0, 0);
+	}
+
+	20% {
+		transform: translate(-3px, 2px);
+	}
+
+	40% {
+		transform: translate(3px, -2px);
+	}
+
+	60% {
+		transform: translate(-2px, -3px);
+	}
+
+	80% {
+		transform: translate(2px, 3px);
+	}
+
+	100% {
+		transform: translate(0, 0);
+	}
 }
 
 .controls {

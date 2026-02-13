@@ -55,7 +55,8 @@ header h1 {
     margin-bottom: 15px;
 }
 
-.tiger-info, .goat-info {
+.tiger-info,
+.goat-info {
     flex: 1;
     background: white;
     padding: 15px;
@@ -71,12 +72,14 @@ header h1 {
     border-left: 4px solid #4ecdc4;
 }
 
-.tiger-info h3, .goat-info h3 {
+.tiger-info h3,
+.goat-info h3 {
     margin-bottom: 10px;
     font-size: 1.3rem;
 }
 
-.tiger-info p, .goat-info p {
+.tiger-info p,
+.goat-info p {
     margin: 5px 0;
     font-size: 1.1rem;
     font-weight: 600;
@@ -182,8 +185,13 @@ header h1 {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
@@ -202,6 +210,7 @@ header h1 {
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -273,7 +282,6 @@ header h1 {
     color: #2d3748;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
@@ -312,7 +320,8 @@ header h1 {
         font-size: 1.6rem;
     }
 
-    .tiger-info h3, .goat-info h3 {
+    .tiger-info h3,
+    .goat-info h3 {
         font-size: 1.1rem;
     }
 

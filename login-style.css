@@ -24,7 +24,6 @@ body {
     position: relative;
 }
 
-/* Background Grid Animation */
 .bg-grid {
     position: fixed;
     inset: 0;
@@ -41,12 +40,12 @@ body {
     from {
         transform: perspective(500px) rotateX(60deg) translateY(0);
     }
+
     to {
         transform: perspective(500px) rotateX(60deg) translateY(50px);
     }
 }
 
-/* Floating Orbs */
 .orb {
     position: fixed;
     border-radius: 50%;
@@ -85,18 +84,21 @@ body {
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(0, 0) scale(1);
     }
+
     33% {
         transform: translate(50px, -50px) scale(1.1);
     }
+
     66% {
         transform: translate(-40px, 40px) scale(0.9);
     }
 }
 
-/* Container */
 .container {
     position: relative;
     z-index: 1;
@@ -107,13 +109,11 @@ body {
     padding: 2rem;
 }
 
-/* Login Wrapper */
 .login-wrapper {
     width: 100%;
     max-width: 540px;
 }
 
-/* Logo Section */
 .logo-section {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -140,14 +140,13 @@ body {
     font-weight: 400;
 }
 
-/* Login Box */
 .login-box {
     background: var(--card-bg);
     border-radius: 24px;
     padding: 3rem 2.8rem;
     border: 2px solid rgba(176, 38, 255, 0.3);
     backdrop-filter: blur(20px);
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.4),
         0 0 80px rgba(176, 38, 255, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -176,7 +175,7 @@ body {
 
 .login-box:hover {
     transform: translateY(-5px);
-    box-shadow: 
+    box-shadow:
         0 35px 70px rgba(0, 0, 0, 0.5),
         0 0 100px rgba(176, 38, 255, 0.3);
 }
@@ -190,7 +189,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* Form Styles */
 #login-form,
 #signup-form,
 #forgot-form {
@@ -233,13 +231,12 @@ body {
 .input-group input:focus {
     background: rgba(20, 25, 50, 0.8);
     border-color: var(--neon-pink);
-    box-shadow: 
+    box-shadow:
         0 0 0 3px rgba(255, 0, 110, 0.1),
         0 0 25px rgba(255, 0, 110, 0.2);
     transform: translateY(-2px);
 }
 
-/* Checkbox for Terms */
 .checkbox-group {
     display: flex;
     align-items: center;
@@ -271,7 +268,6 @@ body {
     text-shadow: 0 0 10px var(--neon-pink);
 }
 
-/* Login/Submit Button */
 .login-btn {
     margin-top: 1.2rem;
     padding: 1.3rem;
@@ -279,7 +275,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    
+
     border: none;
     border-radius: 14px;
     background: linear-gradient(135deg, #ff006e 0%, #b026ff 100%);
@@ -289,11 +285,11 @@ body {
     font-size: 1.15rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    
+
     cursor: pointer;
     transition: all 0.3s ease;
-    
-    box-shadow: 
+
+    box-shadow:
         0 8px 20px rgba(255, 0, 110, 0.4),
         0 0 30px rgba(176, 38, 255, 0.3);
     position: relative;
@@ -317,7 +313,7 @@ body {
 
 .login-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 
+    box-shadow:
         0 12px 30px rgba(255, 0, 110, 0.5),
         0 0 40px rgba(176, 38, 255, 0.5);
 }
@@ -330,7 +326,6 @@ body {
     font-size: 1.4rem;
 }
 
-/* Links Section */
 .links-section {
     margin-top: 2rem;
     text-align: center;
@@ -368,7 +363,6 @@ body {
     color: rgba(255, 255, 255, 0.3);
 }
 
-/* Forgot Password Specific Styles */
 .forgot-icon {
     font-size: 5rem;
     margin: 1.5rem 0;
@@ -393,27 +387,25 @@ body {
     font-weight: 600;
 }
 
-/* Name Fields Row */
 .name-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.2rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .logo {
         font-size: 2.5rem;
     }
-    
+
     .login-box {
         padding: 2.5rem 2rem;
     }
-    
+
     .login-title {
         font-size: 1.6rem;
     }
-    
+
     .name-row {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -425,20 +417,20 @@ body {
         font-size: 2rem;
         letter-spacing: 2px;
     }
-    
+
     .tagline {
         font-size: 1rem;
     }
-    
+
     .login-box {
         padding: 2rem 1.5rem;
     }
-    
+
     .links-section {
         flex-direction: column;
         gap: 0.8rem;
     }
-    
+
     .separator {
         display: none;
     }
