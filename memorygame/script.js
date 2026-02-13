@@ -1,4 +1,11 @@
-const CARD_EMOJIS = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎬', '🎸', '🎹', '🎺', '🎻', '🎤', '🏀', '⚽', '🏈', '⚾', '🎾', '🏐', '🏓', '🥊'];
+let gameActive = false;
+let cardsFlipped = [];
+let matchesFound = 0;
+let totalMatches = 0;
+let flipCount = 0;
+let startTime = null;
+let timerInterval = null;
+let currentLevel = 0;
 
 const sounds = {
     bg: new Audio('bg.mp3'),
@@ -24,291 +31,272 @@ function stopBgMusic() {
     sounds.bg.currentTime = 0;
 }
 
-let gameState = {
-    cards: [],
-    flippedCards: [],
-    matchedPairs: 0,
-    moves: 0,
-    seconds: 0,
-    timerInterval: null,
-    gameStarted: false,
-    difficulty: null,
-    totalPairs: 0
-};
-
-const gameBoard = document.getElementById('gameBoard');
-const movesEl = document.getElementById('moves');
-const timerEl = document.getElementById('timer');
-const bestScoreEl = document.getElementById('bestScore');
-const newGameBtn = document.getElementById('newGameBtn');
-const resetBtn = document.getElementById('resetBtn');
-const winModal = document.getElementById('winModal');
-const finalMovesEl = document.getElementById('finalMoves');
-const finalTimeEl = document.getElementById('finalTime');
-const playAgainBtn = document.getElementById('playAgainBtn');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const newRecordEl = document.getElementById('newRecord');
-const difficultySelector = document.getElementById('difficultySelector');
-const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+const symbols = ['🌟', '🪐', '🌙', '☄️', '🛸', '👽', '🚀', '🌠', '⭐', '🌌', 
+                 '🔮', '💫', '🌃', '🎆', '✨', '🌈', '☀️', '🌍', '🌕', '🌑'];
 
 function init() {
-    loadBestScore();
+    createStars();
     setupEventListeners();
 }
 
-function setupEventListeners() {
-    newGameBtn.addEventListener('click', () => {
-        playBgMusic();
-        showDifficultySelector();
-    });
-    resetBtn.addEventListener('click', () => {
-        resetGame();
-    });
-    playAgainBtn.addEventListener('click', () => {
-        hideModal();
-        showDifficultySelector();
-    });
-    closeModalBtn.addEventListener('click', () => {
-        hideModal();
-    });
+function createStars() {
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = Math.random() * 3 + 1 + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+    }
+}
 
-    difficultyBtns.forEach(btn => {
+function setupEventListeners() {
+    const levelButtons = document.querySelectorAll('.difficulty-btn');
+    levelButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            const pairs = parseInt(btn.dataset.pairs);
-            startNewGame(pairs);
+            const cardCount = parseInt(btn.dataset.cards);
+            startGame(cardCount);
         });
     });
-}
-
-function showDifficultySelector() {
-    difficultySelector.classList.remove('hidden');
-    gameBoard.innerHTML = '';
-    gameBoard.className = 'game-board';
-    stopTimer();
-}
-
-function startNewGame(pairs) {
-    difficultySelector.classList.add('hidden');
-
-    gameState.totalPairs = pairs;
-    gameState.difficulty = pairs === 6 ? 'easy' : pairs === 8 ? 'medium' : 'hard';
-
-    gameBoard.className = `game-board ${gameState.difficulty}`;
-
-    gameState.flippedCards = [];
-    gameState.matchedPairs = 0;
-    gameState.moves = 0;
-    gameState.seconds = 0;
-    gameState.gameStarted = false;
-
-    updateMoves();
-    updateTimer();
-    stopTimer();
-    loadBestScore();
-
-    createCards(pairs);
-    renderCards();
-}
-
-function resetGame() {
-    if (gameState.totalPairs) {
-        startNewGame(gameState.totalPairs);
+    
+    const newGameBtn = document.getElementById('newGameBtn');
+    const changeLevelBtn = document.getElementById('changeLevelBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const newChallengeBtn = document.getElementById('newChallengeBtn');
+    
+    if (newGameBtn) newGameBtn.addEventListener('click', resetGame);
+    if (changeLevelBtn) changeLevelBtn.addEventListener('click', backToLevels);
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', () => {
+            const victoryModal = document.getElementById('victoryModal');
+            victoryModal.classList.remove('active');
+            victoryModal.classList.add('hidden');
+            resetGame();
+        });
+    }
+    if (newChallengeBtn) {
+        newChallengeBtn.addEventListener('click', () => {
+            const victoryModal = document.getElementById('victoryModal');
+            victoryModal.classList.remove('active');
+            victoryModal.classList.add('hidden');
+            backToLevels();
+        });
     }
 }
 
-function createCards(pairs) {
-    const selectedEmojis = CARD_EMOJIS.slice(0, pairs);
-    const cardPairs = [...selectedEmojis, ...selectedEmojis];
-    gameState.cards = shuffle(cardPairs).map((emoji, index) => ({
-        id: index,
-        emoji: emoji,
-        flipped: false,
-        matched: false
-    }));
+function startGame(cardCount) {
+    currentLevel = cardCount;
+    totalMatches = cardCount / 2;
+    
+    playBgMusic();
+    
+    gameActive = true;
+    cardsFlipped = [];
+    matchesFound = 0;
+    flipCount = 0;
+    startTime = Date.now();
+    
+    const levelScreen = document.getElementById('levelScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const flipsCount = document.getElementById('flipsCount');
+    const matchesCount = document.getElementById('matchesCount');
+    const timeCount = document.getElementById('timeCount');
+    
+    levelScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    flipsCount.textContent = '0';
+    matchesCount.textContent = '0';
+    timeCount.textContent = '0s';
+    
+    loadRecord();
+    
+    createGameGrid(cardCount);
+    
+    startTimer();
 }
 
-function shuffle(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+function createGameGrid(cardCount) {
+    const gameGrid = document.getElementById('gameGrid');
+    gameGrid.innerHTML = '';
+    
+    gameGrid.className = 'game-board';
+    if (cardCount === 12) {
+        gameGrid.classList.add('easy');
+    } else if (cardCount === 16) {
+        gameGrid.classList.add('medium');
+    } else {
+        gameGrid.classList.add('hard');
     }
-    return shuffled;
-}
-
-function renderCards() {
-    gameBoard.innerHTML = '';
-    gameState.cards.forEach(card => {
-        const cardEl = createCardElement(card);
-        gameBoard.appendChild(cardEl);
+    
+    const pairs = cardCount / 2;
+    const selectedSymbols = symbols.slice(0, pairs);
+    const cardSymbols = [...selectedSymbols, ...selectedSymbols];
+    
+    shuffleArray(cardSymbols);
+    
+    cardSymbols.forEach((symbol, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.symbol = symbol;
+        card.dataset.index = index;
+        
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card-face card-front';
+        
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card-face card-back';
+        
+        const emojiSpan = document.createElement('span');
+        emojiSpan.textContent = symbol;
+        
+        cardBack.appendChild(emojiSpan);
+        card.appendChild(cardFront);
+        card.appendChild(cardBack);
+        
+        card.addEventListener('click', () => flipCard(card));
+        gameGrid.appendChild(card);
     });
 }
 
-function createCardElement(card) {
-    const cardEl = document.createElement('div');
-    cardEl.className = 'card';
-    cardEl.dataset.id = card.id;
-
-    if (card.flipped) {
-        cardEl.classList.add('flipped');
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-
-    if (card.matched) {
-        cardEl.classList.add('matched');
-    }
-
-    cardEl.innerHTML = `
-        <div class="card-face card-front"></div>
-        <div class="card-face card-back">${card.emoji}</div>
-    `;
-
-    cardEl.addEventListener('click', () => handleCardClick(card.id));
-
-    return cardEl;
 }
 
-function handleCardClick(cardId) {
-    const card = gameState.cards.find(c => c.id === cardId);
-
-    if (card.flipped || card.matched || gameState.flippedCards.length === 2) {
+function flipCard(card) {
+    if (!gameActive || 
+        card.classList.contains('flipped') || 
+        card.classList.contains('matched') || 
+        cardsFlipped.length >= 2) {
         return;
     }
-
-    if (!gameState.gameStarted) {
-        startTimer();
-        gameState.gameStarted = true;
+    
+    card.classList.add('flipped');
+    cardsFlipped.push(card);
+    
+    if (cardsFlipped.length === 1) {
+        flipCount++;
+        const flipsCount = document.getElementById('flipsCount');
+        flipsCount.textContent = flipCount;
     }
-
-    card.flipped = true;
-    gameState.flippedCards.push(card);
-    updateCard(cardId);
-
-    if (gameState.flippedCards.length === 2) {
-        gameState.moves++;
-        updateMoves();
+    
+    if (cardsFlipped.length === 2) {
         checkMatch();
     }
 }
 
-function updateCard(cardId) {
-    const cardEl = document.querySelector(`[data-id="${cardId}"]`);
-    const card = gameState.cards.find(c => c.id === cardId);
-
-    if (card.flipped) {
-        cardEl.classList.add('flipped');
-    }
-
-    if (card.matched) {
-        cardEl.classList.add('matched');
-    }
-}
-
 function checkMatch() {
-    const [card1, card2] = gameState.flippedCards;
-
-    if (card1.emoji === card2.emoji) {
-        card1.matched = true;
-        card2.matched = true;
-        gameState.matchedPairs++;
-
-        updateCard(card1.id);
-        updateCard(card2.id);
-
-        gameState.flippedCards = [];
-
-        if (gameState.matchedPairs === gameState.totalPairs) {
-            setTimeout(() => {
-                playSound('win');
-                stopBgMusic();
-                winGame();
-            }, 500);
-        }
+    const [card1, card2] = cardsFlipped;
+    const symbol1 = card1.dataset.symbol;
+    const symbol2 = card2.dataset.symbol;
+    
+    if (symbol1 === symbol2) {
+        setTimeout(() => {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            
+            matchesFound++;
+            const matchesCount = document.getElementById('matchesCount');
+            matchesCount.textContent = matchesFound;
+            
+            cardsFlipped = [];
+            
+            if (matchesFound === totalMatches) {
+                setTimeout(() => showVictory(), 500);
+            }
+        }, 400);
     } else {
         setTimeout(() => {
-            card1.flipped = false;
-            card2.flipped = false;
-
-            const cardEl1 = document.querySelector(`[data-id="${card1.id}"]`);
-            const cardEl2 = document.querySelector(`[data-id="${card2.id}"]`);
-
-            cardEl1.classList.remove('flipped');
-            cardEl2.classList.remove('flipped');
-
-            gameState.flippedCards = [];
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            cardsFlipped = [];
         }, 1000);
     }
 }
 
 function startTimer() {
-    gameState.timerInterval = setInterval(() => {
-        gameState.seconds++;
-        updateTimer();
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const timeCount = document.getElementById('timeCount');
+        timeCount.textContent = elapsed + 's';
     }, 1000);
 }
 
 function stopTimer() {
-    if (gameState.timerInterval) {
-        clearInterval(gameState.timerInterval);
-        gameState.timerInterval = null;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
     }
 }
 
-function updateTimer() {
-    const minutes = Math.floor(gameState.seconds / 60);
-    const seconds = gameState.seconds % 60;
-    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-}
-
-function updateMoves() {
-    movesEl.textContent = gameState.moves;
-}
-
-function winGame() {
+function showVictory() {
+    gameActive = false;
     stopTimer();
-
-    finalMovesEl.textContent = gameState.moves;
-    finalTimeEl.textContent = timerEl.textContent;
-
-    const currentScore = gameState.moves;
-    const bestScore = getBestScore(gameState.difficulty);
-
-    if (bestScore === null || currentScore < bestScore) {
-        saveBestScore(gameState.difficulty, currentScore);
-        loadBestScore();
-        newRecordEl.classList.remove('hidden');
+    
+    setTimeout(() => {
+        playSound('win');
+        stopBgMusic();
+    }, 300);
+    
+    const finalTimeValue = Math.floor((Date.now() - startTime) / 1000);
+    
+    const finalFlips = document.getElementById('finalFlips');
+    const finalTime = document.getElementById('finalTime');
+    const recordBadge = document.getElementById('recordBadge');
+    const victoryModal = document.getElementById('victoryModal');
+    
+    finalFlips.textContent = flipCount;
+    finalTime.textContent = finalTimeValue + 's';
+    
+    const recordKey = `cosmic_record_${currentLevel}`;
+    const currentRecord = localStorage.getItem(recordKey);
+    
+    if (!currentRecord || flipCount < parseInt(currentRecord)) {
+        localStorage.setItem(recordKey, flipCount);
+        recordBadge.classList.remove('hidden');
+        loadRecord(); 
     } else {
-        newRecordEl.classList.add('hidden');
+        recordBadge.classList.add('hidden');
     }
-
-    showModal();
+    
+    victoryModal.classList.remove('hidden');
+    victoryModal.classList.add('active');
 }
 
-function showModal() {
-    winModal.classList.remove('hidden');
+function loadRecord() {
+    const recordKey = `cosmic_record_${currentLevel}`;
+    const record = localStorage.getItem(recordKey);
+    const recordCount = document.getElementById('recordCount');
+    recordCount.textContent = record || '--';
 }
 
-function hideModal() {
-    winModal.classList.add('hidden');
-}
-
-function getBestScore(difficulty) {
-    const scores = JSON.parse(localStorage.getItem('memoryGameBestScores') || '{}');
-    return scores[difficulty] || null;
-}
-
-function saveBestScore(difficulty, score) {
-    const scores = JSON.parse(localStorage.getItem('memoryGameBestScores') || '{}');
-    scores[difficulty] = score;
-    localStorage.setItem('memoryGameBestScores', JSON.stringify(scores));
-}
-
-function loadBestScore() {
-    if (gameState.difficulty) {
-        const bestScore = getBestScore(gameState.difficulty);
-        bestScoreEl.textContent = bestScore !== null ? bestScore : '--';
-    } else {
-        bestScoreEl.textContent = '--';
+function resetGame() {
+    if (currentLevel > 0) {
+        stopTimer();
+        startGame(currentLevel);
     }
 }
 
-init();
+function backToLevels() {
+    gameActive = false;
+    stopTimer();
+    stopBgMusic();
+    
+    const gameScreen = document.getElementById('gameScreen');
+    const levelScreen = document.getElementById('levelScreen');
+    
+    gameScreen.classList.add('hidden');
+    levelScreen.classList.remove('hidden');
+    currentLevel = 0;
+}
+
+document.addEventListener('DOMContentLoaded', init);

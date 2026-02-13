@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function () {
-    if (AuthManager.isAuthenticated()) {
+    if (typeof AuthManager !== 'undefined' && AuthManager.isAuthenticated()) {
         window.location.href = 'home.html';
     }
 });
@@ -11,16 +11,20 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
 
-    const result = AuthManager.login(email, username, password);
+    if (typeof AuthManager !== 'undefined') {
+        const result = AuthManager.login(email, username, password);
 
-    if (result.success) {
-        showMessage('Login successful! Redirecting...', 'success');
+        if (result.success) {
+            showMessage('Login successful! Redirecting...', 'success');
 
-        setTimeout(() => {
-            window.location.href = 'home.html';
-        }, 1000);
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        } else {
+            showMessage(result.message, 'error');
+        }
     } else {
-        showMessage(result.message, 'error');
+        showMessage('Authentication system not loaded', 'error');
     }
 });
 
@@ -96,3 +100,16 @@ document.addEventListener('mousemove', e => {
         orb.style.transform = `translate(${x}px, ${y}px)`;
     });
 });
+
+
+window.addEventListener('load', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+const loginBox = document.querySelector('.login-box');
+if (loginBox) {
+    loginBox.style.scrollBehavior = 'smooth';
+}

@@ -14,14 +14,44 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Poppins', 'Orbitron', sans-serif;
     background: linear-gradient(135deg, #0a0e27 0%, #1a1e3f 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: #fff;
     min-height: 100vh;
-    max-height: 100vh;
-    overflow-y: auto;
     overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(10, 14, 39, 0.8);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #b026ff, #ff006e);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff006e, #b026ff);
+    box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #b026ff rgba(10, 14, 39, 0.8);
 }
 
 .bg-grid {

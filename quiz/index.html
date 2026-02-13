@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ne">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nepali Quiz</title>
+  <meta name="description" content="नेपाली क्विज - Test your knowledge about Nepal">
+  <title>Nepali Quiz - नेपाली क्विज</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .back-to-hub {
@@ -69,7 +70,7 @@
         <div class="progress-bar" id="progressBar"></div>
       </div>
       <div class="meta">
-        <span id="questionNumber">Question 1 of 50</span>
+        <span id="questionNumber">Question 1 of 10</span>
         <span id="questionHint">Select one answer</span>
       </div>
       <h2 class="question" id="questionText">Loading question...</h2>
@@ -84,7 +85,7 @@
     <section class="card results hidden" id="results">
       <div class="badge">Quiz Completed</div>
       <h2>Your Score</h2>
-      <div class="score" id="finalScore">0/50</div>
+      <div class="score" id="finalScore">0/10</div>
       <p class="result-message" id="resultMessage"></p>
       <button class="solid" id="retakeBtn" type="button">Retake Quiz</button>
     </section>
@@ -98,7 +99,7 @@
       </div>
       <p class="modal-note">Access code required:</p>
       <div class="code-row">
-        <input type="password" id="adminCodeInput" placeholder="Admin code">
+        <input type="password" id="adminCodeInput" placeholder="Admin code" autocomplete="off">
         <button class="solid" id="unlockAdmin" type="button">Unlock</button>
       </div>
       <div class="admin-body hidden" id="adminBody">

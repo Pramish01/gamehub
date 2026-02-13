@@ -184,3 +184,16 @@ document.addEventListener('mousemove', e => {
         orb.style.transform = `translate(${x}px, ${y}px)`;
     });
 });
+
+
+window.addEventListener('load', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+const loginBox = document.querySelector('.login-box');
+if (loginBox) {
+    loginBox.style.scrollBehavior = 'smooth';
+}
