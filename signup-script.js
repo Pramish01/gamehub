@@ -49,11 +49,12 @@ document.getElementById('signup-form').addEventListener('submit', function (e) {
 
     localStorage.setItem('registered_username', username);
     localStorage.setItem('registered_email', email);
+    localStorage.setItem('registered_password', password); 
 
     showMessage('Account created successfully! Redirecting to login...', 'success');
 
     setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'index.html';  
     }, 2000);
 });
 

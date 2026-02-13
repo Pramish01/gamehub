@@ -1,18 +1,17 @@
-
 window.addEventListener('DOMContentLoaded', function () {
     if (!AuthManager.isAuthenticated()) {
-        window.location.href = 'index.html';
+        window.location.replace('index.html');
         return;
     }
 
     const user = AuthManager.getCurrentUser();
 
-    if (user && user.username) {
-        document.getElementById('username').textContent = user.username;
+    const usernameElement = document.getElementById('username');
+    if (user && user.username && usernameElement) {
+        usernameElement.textContent = 'Welcome, ' + user.username;
     }
 
     setupLogoutButton();
-
     setupGameCards();
 });
 
@@ -28,13 +27,9 @@ function setupLogoutButton() {
         e.preventDefault();
 
         if (confirm('Are you sure you want to logout?')) {
-            const result = AuthManager.logout();
-
-            if (result.success) {
-                window.location.href = 'index.html';
-            } else {
-                alert('Error logging out. Please try again.');
-            }
+            AuthManager.logout();
+            
+            window.location.replace('index.html');
         }
     });
 }
